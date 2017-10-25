@@ -1,4 +1,7 @@
+from flask_pluginengine import render_plugin_template
 from indico.core.plugins import IndicoPlugin, IndicoPluginBlueprint
+from notify_contact import NotifyContact
+
 
 class ECMWFPlugin(IndicoPlugin):
     """ECMWF plugin
@@ -8,27 +11,24 @@ class ECMWFPlugin(IndicoPlugin):
 
     def init(self):
         super(ECMWFPlugin, self).init()
-        self.template_hook('additional-content', self._show_hide_clippy)
-        self.connect(signals.event.updated, self._event_changed)
-        self.inject_css('clippy_css', WPEventManagement)
-        self.inject_js('clippy_js', WPEventManagement)
+        self.template_hook('registration-management-extra-actions', self._notify_contact)
+        # self.connect(signals.event.updated, self._event_changed)
+        # self.inject_css('clippy_css', WPEventManagement)
+        # self.inject_js('clippy_js', WPEventManagement)
 
     def get_blueprints(self):
-        return IndicoPluginBlueprint(self.name, __name__)
+        blueprint = IndicoPluginBlueprint('ecmwf', __name__, url_prefix='/ecmwf')
+        blueprint.add_url_rule(
+            '/event/<confId>/manage/registration/<int:reg_form_id>/registrations/notify/contact',
+            'notify_contact', NotifyContact, methods=('POST',)
+        )
+        return blueprint
 
     def register_assets(self):
-        self.register_css_bundle('clippy_css', 'css/clippy.css')
-        self.register_js_bundle('clippy_js', 'js/clippy.js', 'js/indico_clippy.js')
+        pass
+        # self.register_css_bundle('clippy_css', 'css/clippy.css')
+        # self.register_js_bundle('clippy_js', 'js/clippy.js', 'js/indico_clippy.js')
 
-    def _event_changed(self, event, changes, **kwargs):
-        if 'title' not in changes:
-            return
-        old_title = changes['title'][0]
-        new_title = changes['title'][1]
-        template = get_template_module('clippy:clippy_mail.html', old_title=old_title, new_title=new_title)
-        email = make_email(to_list=event.all_manager_emails, from_address='clippy@exam.ple',
-                           template=template, html=True)
-        send_email(email)
-
-    def _show_hide_clippy(self):
-        return render_plugin_template('hide_clippy.html')
+    def _notify_contact(self, **kwargs):
+        regform = kwargs["regform"]
+        return render_plugin_template('actions_dropdown_extension.html', regform=regform)

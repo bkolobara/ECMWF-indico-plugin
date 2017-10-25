@@ -1,0 +1,12 @@
+<hr />
+<li>
+  <a href="#"
+     class="icon-user-check js-requires-selected-row disabled"
+     data-href="{{ url_for_plugin('ecmwf.notify_contact', regform) }}"
+     data-title="{% trans %}Notify contact{% endtrans %}"
+     data-params-selector="#registration-list tr input[type=checkbox]:checked"
+     data-method="POST"
+     data-ajax-dialog>
+      {%- trans %}Notify contact{% endtrans -%}
+  </a>
+</li>

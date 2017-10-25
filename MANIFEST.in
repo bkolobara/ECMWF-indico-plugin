@@ -1,0 +1,2 @@
+graft ecmwf_indico/templates
+global-exclude *.pyc __pycache__ .keep

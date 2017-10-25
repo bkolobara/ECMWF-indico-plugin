@@ -1,0 +1,23 @@
+<p>
+  The deadline for courses has now passed.
+</p>
+<p>
+  In accordance to our rules we will give priority to our Member
+  and Co-operating States applicants by guaranteeing places on our
+  training courses to each National Hydro-Meteorological Service.
+</p>
+<p>
+  We are conscious of the amount of work required on your side to ensure
+  the smooth running of the application process. To make it more efficient
+  we will assume that all the candidates are endorsed and you agree with
+  the ranking (if applicable) of National Hydro-Meteorological Service
+  applicants, <b>unless you notify us otherwise by XXX</b>.
+</p>
+<p>
+  Full list of applications and ranking (if applicable) is provided below.
+</p>
+<p>
+{% for registration in registrations %}
+  {{ registration.full_name }} ({{ registration.email }})<br />
+{% endfor %}
+</p>
