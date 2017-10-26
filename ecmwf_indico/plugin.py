@@ -8,7 +8,8 @@ from notify_contact import NotifyContact
 class ECMWFPlugin(IndicoPlugin):
     """ECMWF plugin
 
-    TODO: Explain better what this plugin is about
+    Main features:
+    - Notify contact with selected registrations.
     """
 
     def init(self):
