@@ -1,5 +1,7 @@
 from flask_pluginengine import render_plugin_template
 from indico.core.plugins import IndicoPlugin, IndicoPluginBlueprint
+from indico.modules.events.management.views import WPEventManagement
+
 from notify_contact import NotifyContact
 
 
@@ -12,9 +14,7 @@ class ECMWFPlugin(IndicoPlugin):
     def init(self):
         super(ECMWFPlugin, self).init()
         self.template_hook('registration-management-extra-actions', self._notify_contact)
-        # self.connect(signals.event.updated, self._event_changed)
-        # self.inject_css('clippy_css', WPEventManagement)
-        # self.inject_js('clippy_js', WPEventManagement)
+        self.inject_css('ecmwf_css', WPEventManagement)
 
     def get_blueprints(self):
         blueprint = IndicoPluginBlueprint('ecmwf', __name__, url_prefix='/ecmwf')
@@ -25,9 +25,7 @@ class ECMWFPlugin(IndicoPlugin):
         return blueprint
 
     def register_assets(self):
-        pass
-        # self.register_css_bundle('clippy_css', 'css/clippy.css')
-        # self.register_js_bundle('clippy_js', 'js/clippy.js', 'js/indico_clippy.js')
+        self.register_css_bundle('ecmwf_css', 'css/ecmwf.css')
 
     def _notify_contact(self, **kwargs):
         regform = kwargs["regform"]
