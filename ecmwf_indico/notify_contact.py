@@ -28,22 +28,17 @@ class NotifyContactForm(IndicoForm):
     def __init__(self, *args, **kwargs):
         super(NotifyContactForm, self).__init__(*args, **kwargs)
         self.regform = kwargs.pop('regform')
-        registrations = kwargs.pop('registrations')
-
         self.from_address.choices = self.regform.event.get_allowed_sender_emails().items()
-        self.body.data = render_plugin_template('notify_contact_form_text.html',
-                                                registrations=registrations)
+
+        self.registrations = kwargs.pop('registrations')
+        # Submitted forms have the body set and it should not be replaced with a template
+        if not self.body.data:
+            self.body.data = render_plugin_template('notify_contact_form_text.html',
+                                                    registrations=self.registrations)
         self.body.description = """<b>Available placeholders</b><br/>
         {event_link}: Link to the event<br/>
-        {event_title}: The title of the event<br/>
-        {link}: The link to the registration details
+        {event_title}: The title of the event
         """
-
-    def validate_body(self, field):
-        missing = get_missing_placeholders('registration-email', field.data,
-                                           regform=self.regform, registration=None)
-        if missing:
-            raise ValidationError(_('Missing placeholders: {}').format(', '.join(missing)))
 
     def is_submitted(self):
         return super(NotifyContactForm, self).is_submitted() and 'submitted' in request.form
@@ -53,8 +48,13 @@ class NotifyContact(RHRegistrationsActionBase):
     """Previews the email that will be sent to country contacts"""
 
     def _send_emails(self, form):
+        # A fake registration is required for templating, as the {event_link} and
+        # {event_title} are read from registration.
+        virtual_registration = lambda: None
+        setattr(virtual_registration, 'registration_form', self.regform)
+
         email_body = replace_placeholders('registration-email', form.body.data,
-                                          regform=self.regform, registration=None)
+                                          regform=self.regform, registration=virtual_registration)
         template = get_template_module('events/registration/emails/custom_email.html',
                                         email_subject=form.subject.data, email_body=email_body)
         email = make_email(to_list=form.to_address.data, cc_list=form.cc_addresses.data,
