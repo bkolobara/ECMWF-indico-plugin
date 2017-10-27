@@ -14,7 +14,7 @@ class ECMWFPlugin(IndicoPlugin):
 
     def init(self):
         super(ECMWFPlugin, self).init()
-        self.template_hook('registration-management-extra-actions', self._notify_contact)
+        self.template_hook('registration-status-action-button', self._ecmwf_menu)
         self.inject_css('ecmwf_css', WPEventManagement)
 
     def get_blueprints(self):
@@ -28,6 +28,6 @@ class ECMWFPlugin(IndicoPlugin):
     def register_assets(self):
         self.register_css_bundle('ecmwf_css', 'css/ecmwf.css')
 
-    def _notify_contact(self, **kwargs):
+    def _ecmwf_menu(self, **kwargs):
         regform = kwargs["regform"]
         return render_plugin_template('actions_dropdown_extension.html', regform=regform)
