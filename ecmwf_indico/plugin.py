@@ -15,6 +15,7 @@ class ECMWFPlugin(IndicoPlugin):
     def init(self):
         super(ECMWFPlugin, self).init()
         self.template_hook('registration-status-action-button', self._ecmwf_menu)
+        self.template_hook('page-header', self._google_analytics)
         self.inject_css('ecmwf_css', WPEventManagement)
 
     def get_blueprints(self):
@@ -31,3 +32,6 @@ class ECMWFPlugin(IndicoPlugin):
     def _ecmwf_menu(self, **kwargs):
         regform = kwargs["regform"]
         return render_plugin_template('actions_dropdown_extension.html', regform=regform)
+
+    def _google_analytics(self, **_kwargs):
+        return render_plugin_template('google_analytics.html')

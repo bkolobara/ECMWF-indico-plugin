@@ -1,5 +1,6 @@
 *.py[co]
 *.egg-info
+*.rdb
 __pycache__/
 .vscode/
 .cache/
