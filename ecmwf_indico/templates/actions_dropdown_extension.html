@@ -12,5 +12,16 @@
            data-ajax-dialog>
             {%- trans %}Notify contact{% endtrans -%}
         </a>
-      </li>
+    </li>
+    <li>
+        <a href="#"
+           class="icon-file-text js-requires-selected-row disabled"
+           data-href="{{ url_for_plugin('ecmwf.visa_invitation', regform) }}"
+           data-title="{% trans %}Send Visa Invitation{% endtrans %}"
+           data-params-selector="#registration-list tr input[type=checkbox]:checked"
+           data-method="POST"
+           data-ajax-dialog>
+            {%- trans %}Send Visa Invitation{% endtrans -%}
+        </a>
+    </li>
 </ul>

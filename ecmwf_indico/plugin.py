@@ -3,6 +3,7 @@ from indico.core.plugins import IndicoPlugin, IndicoPluginBlueprint
 from indico.modules.events.management.views import WPEventManagement
 
 from notify_contact import NotifyContact
+from visa_invitation import VisaInvitation
 
 
 class ECMWFPlugin(IndicoPlugin):
@@ -21,8 +22,12 @@ class ECMWFPlugin(IndicoPlugin):
     def get_blueprints(self):
         blueprint = IndicoPluginBlueprint('ecmwf', __name__, url_prefix='/ecmwf')
         blueprint.add_url_rule(
-            '/event/<confId>/manage/registration/<int:reg_form_id>/registrations/notify/contact',
+            '/event/<confId>/manage/registration/<int:reg_form_id>/registrations/notify-contact',
             'notify_contact', NotifyContact, methods=('POST',)
+        )
+        blueprint.add_url_rule(
+            '/event/<confId>/manage/registration/<int:reg_form_id>/registrations/send-visa-invitation',
+            'visa_invitation', VisaInvitation, methods=('POST',)
         )
         return blueprint
 
