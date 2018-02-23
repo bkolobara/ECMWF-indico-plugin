@@ -50,19 +50,20 @@ class NotifyContact(RHRegistrationsActionBase):
     def _send_emails(self, form):
         # A fake registration is required for templating, as the {event_link} and
         # {event_title} are read from registration.
-        virtual_registration = lambda: None
+        def virtual_registration(): return None
         setattr(virtual_registration, 'registration_form', self.regform)
 
         email_body = replace_placeholders('registration-email', form.body.data,
                                           regform=self.regform, registration=virtual_registration)
         template = get_template_module('events/registration/emails/custom_email.html',
-                                        email_subject=form.subject.data, email_body=email_body)
+                                       email_subject=form.subject.data, email_body=email_body)
         email = make_email(to_list=form.to_address.data, cc_list=form.cc_addresses.data,
                            from_address=form.from_address.data, template=template, html=True)
         send_email(email, self.event, 'NotifyContact')
 
     def _process(self):
-        form = NotifyContactForm(regform=self.regform, registrations=self.registrations)
+        form = NotifyContactForm(regform=self.regform,
+                                 registrations=self.registrations)
         if form.validate_on_submit():
             self._send_emails(form)
             flash(_('The email was sent.'), 'success')
