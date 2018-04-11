@@ -7,3 +7,13 @@
 .footer {
   display: none;
 }
+
+/* Never show the Future events section */
+
+.event-list .future-events .info-message-box {
+  display: none;
+}
+
+.event-list .future-events .events {
+  display: block !important;
+}
