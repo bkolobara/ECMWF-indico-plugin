@@ -3,8 +3,9 @@
   border-top: 1px solid #5d95ea;
 }
 
-.event-page-header,
-.footer {
+.event-page-header {
+  /*, We don't have only an event-page-footer class,
+      so we can't hide it by default. */
   display: none;
 }
 

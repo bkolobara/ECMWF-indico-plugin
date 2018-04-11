@@ -1,0 +1,19 @@
+<script>
+  // Google analytics
+  (function (w, d, s, l, i) {
+    w[l] = w[l] || []; w[l].push({
+      'gtm.start':
+        new Date().getTime(), event: 'gtm.js'
+    }); var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+        '//www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+  })(window, document, 'script', 'dataLayer', 'GTM-P5T597');
+
+  // Hijack the setupCategoryDisplayEventList function to always load events in the future.
+  // This may start to fail if the order of loading JS changes.
+  window._setupCategoryDisplayEventList = window.setupCategoryDisplayEventList;
+  window.setupCategoryDisplayEventList = function (_, showPastEvents) {
+    window._setupCategoryDisplayEventList(true, showPastEvents);
+  }
+
+</script>

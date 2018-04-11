@@ -18,7 +18,7 @@ class ECMWFPlugin(IndicoPlugin):
         super(ECMWFPlugin, self).init()
         self.template_hook(
             'registration-status-action-button', self._ecmwf_menu)
-        self.template_hook('page-header', self._google_analytics)
+        self.template_hook('page-header', self._ecmwf_js)
         self.template_hook('conference-header',
                            self._event_iframe_detection)
         self.inject_css('ecmwf_css')
@@ -47,8 +47,8 @@ class ECMWFPlugin(IndicoPlugin):
         regform = kwargs["regform"]
         return render_plugin_template('actions_dropdown_extension.html', regform=regform)
 
-    def _google_analytics(self, **_kwargs):
-        return render_plugin_template('google_analytics.html')
+    def _ecmwf_js(self, **_kwargs):
+        return render_plugin_template('ecmwf_js.html')
 
     def _event_iframe_detection(self, **_kwargs):
         """Inject a script into the page that enables/disables the header/footer.
