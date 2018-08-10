@@ -18,10 +18,9 @@ class ECMWFPlugin(IndicoPlugin):
         super(ECMWFPlugin, self).init()
         self.template_hook(
             'registration-status-action-button', self._ecmwf_menu)
-        self.template_hook('page-header', self._ecmwf_js)
-        self.template_hook('conference-header',
-                           self._event_iframe_detection)
         self.inject_css('ecmwf_css')
+        self.inject_js('linkify_js')
+        self.inject_js('ecmwf_js')
 
     def get_blueprints(self):
         blueprint = IndicoPluginBlueprint(
@@ -42,16 +41,9 @@ class ECMWFPlugin(IndicoPlugin):
 
     def register_assets(self):
         self.register_css_bundle('ecmwf_css', 'css/ecmwf.css')
+        self.register_js_bundle('linkify_js', 'js/linkify.min.js', 'js/linkify-jquery.min.js')
+        self.register_js_bundle('ecmwf_js', 'js/ecmwf.js')
 
     def _ecmwf_menu(self, **kwargs):
         regform = kwargs["regform"]
         return render_plugin_template('actions_dropdown_extension.html', regform=regform)
-
-    def _ecmwf_js(self, **_kwargs):
-        return render_plugin_template('ecmwf_js.html')
-
-    def _event_iframe_detection(self, **_kwargs):
-        """Inject a script into the page that enables/disables the header/footer.
-        If the page is displayed inside an iFrame then the header/footer is disabled. 
-        """
-        return render_plugin_template('event_iframe_detection.html')
