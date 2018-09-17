@@ -5,6 +5,7 @@ from indico.modules.events.management.views import WPEventManagement
 from notify_contact import NotifyContact
 from visa_invitation import VisaInvitation
 from speaker_reimbursement import SpeakerReimbursement
+from ecmwf_abstracts import ECMWFAbstracts
 
 
 class ECMWFPlugin(IndicoPlugin):
@@ -36,6 +37,10 @@ class ECMWFPlugin(IndicoPlugin):
         blueprint.add_url_rule(
             '/event/<confId>/manage/registration/<int:reg_form_id>/registrations/send-keynote-speaker-reimbursement',
             'speaker_reimbursement', SpeakerReimbursement, methods=('POST',)
+        )
+        blueprint.add_url_rule(
+            '/event/<confId>/abstracts',
+            'ecmwf_abstracts', ECMWFAbstracts
         )
         return blueprint
 

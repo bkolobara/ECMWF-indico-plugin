@@ -12,6 +12,19 @@ window.setupCategoryDisplayEventList = function(_, showPastEvents) {
     .trigger("click", true);
 };
 
+// Point the abstract pdf generation link to our custom abstract html page
+$(document).ready(function() {
+  var download_links = $('a[href$="book-of-abstracts.pdf"]').get();
+  if (download_links.length > 0) {
+    var download_link = download_links[0];
+    var regex = /event\/(\d+)\/book-of-abstracts\.pdf/;
+    var event_id = download_link.href.match(regex)[1];
+    var new_download_url = "/ecmwf" + "/event/" + event_id + "/abstracts";
+    download_link.href = new_download_url;
+    download_link.target = "_blank";
+  }
+});
+
 // Turn text into links inside the registration form
 $(document).ready(function() {
   // If the page is displayed inside an iFrame then the header/footer is disabled.
