@@ -10,7 +10,7 @@
             background: #f1f3f5;
         }
 
-        .abstract {
+        div.abstract {
             width: 800px;
             margin: 20px auto;
             padding: 20px;
@@ -20,7 +20,19 @@
         }
 
         h1 {
+            text-align: center;
+            color: #0162a2;
+        }
+
+        h2.title {
+            color: #828282;
+            font-style: italic;
+            text-align: center;
+        }
+
+        h2.abstract {
             color: #006eb7;
+            margin: 0;
         }
 
         span.primary {
@@ -37,18 +49,35 @@
             font-size: 0.9em;
             font-weight: 100;
         }
+
+        span.timetable {
+            color: gray;
+            font-size: 0.9em;
+        }
+
+        span.notassigned {
+            color: red;
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
+        <h1>{{ event.title }}</h1>
+        <h2 class="title">Abstracts</h2>
         {% for abstract in abstracts %}
         <div class="abstract">
-            <h1>{{ abstract.title }}</h1>
+            {% if abstract.starting %}
+            <span class="timetable">{{abstract.starting}}</span>
+            {% else %}
+            <span class="timetable notassigned">This abstract is not assigned to a timetable spot.</span>
+            {% endif %}
+
+            <h2 class="abstract">{{ abstract.title }}</h2>
             <p class="authors">
                 {% for author in abstract.authors %}
                 <span class="{% if author.primary %}primary{% endif %}">{{ author.full_name }}</span>
-                <sup>{{ author.affiliation_index + 1 }}</sup>{% if not loop.last %},{% endif %}
+                <sup>{{ author.affiliation_index }}</sup>{% if not loop.last %},{% endif %}
                 {% endfor %}
             </p>
             <p class="affiliations">
