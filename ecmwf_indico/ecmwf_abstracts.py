@@ -10,7 +10,6 @@ class ECMWFAbstracts(RHAbstractsBase):
     """Displays the book of abstracts specifically formatted for ECMWF"""
 
     def _process(self):
-        pprint(vars(self.event.abstracts[1].contribution.timetable_entry))
         abstracts = []
         
         for abstract in self.event.abstracts:
