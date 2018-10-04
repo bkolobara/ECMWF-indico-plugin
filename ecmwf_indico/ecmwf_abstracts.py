@@ -2,7 +2,6 @@ from indico.modules.events.abstracts.controllers.base import RHAbstractsBase
 from indico.modules.events.abstracts.models.abstracts import AbstractState
 from indico.modules.events.contributions.models.persons import AuthorType
 from flask_pluginengine import render_plugin_template
-from pprint import pprint
 
 from datetime import datetime
 
@@ -21,17 +20,14 @@ class ECMWFAbstracts(RHAbstractsBase):
                 person = pl.person
                 affiliation = person.affiliation
                 if affiliation == "":
-                    primary = (pl.author_type == AuthorType.primary)
-                    authors.append({'full_name': person.full_name, 'affiliation_index': '', 'primary': primary})
+                    authors.append({'full_name': person.full_name, 'affiliation_index': '', 'speaker': pl.is_speaker})
                     continue
                 try:
                     affiliation_index = affiliations.index(affiliation) + 1
-                    primary = (pl.author_type == AuthorType.primary)
-                    authors.append({'full_name': person.full_name, 'affiliation_index': affiliation_index, 'primary': primary})
+                    authors.append({'full_name': person.full_name, 'affiliation_index': affiliation_index, 'speaker': pl.is_speaker})
                 except ValueError:
                     affiliation_index = len(affiliations) + 1
-                    primary = (pl.author_type == AuthorType.primary)
-                    authors.append({'full_name': person.full_name, 'affiliation_index': affiliation_index, 'primary': primary})
+                    authors.append({'full_name': person.full_name, 'affiliation_index': affiliation_index, 'speaker': pl.is_speaker})
                     affiliations.append(affiliation)
             timetable_entry = abstract.contribution.timetable_entry
             abstracts.append({

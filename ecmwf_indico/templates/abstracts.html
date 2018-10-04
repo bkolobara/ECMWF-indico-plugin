@@ -35,7 +35,7 @@
             margin: 0;
         }
 
-        span.primary {
+        span.speaker {
             text-decoration: underline;
         }
 
@@ -76,7 +76,7 @@
             <h2 class="abstract">{{ abstract.title }}</h2>
             <p class="authors">
                 {% for author in abstract.authors %}
-                <span class="{% if author.primary %}primary{% endif %}">{{ author.full_name }}</span>
+                <span class="{% if author.speaker %}speaker{% endif %}">{{ author.full_name }}</span>
                 <sup>{{ author.affiliation_index }}</sup>{% if not loop.last %},{% endif %}
                 {% endfor %}
             </p>
