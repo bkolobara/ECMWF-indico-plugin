@@ -152,6 +152,10 @@ class VisaInvitationPDF(object):
         body = Paragraph(body_data, normalStyle)
         body.wrap(500, 600)
         body.drawOn(canvas, 1*cm, -11*cm)
+        # Footer
+        canvas.translate(0, -23.5*cm)
+        canvas.drawImage("%s/static/img/ecmwf_footer.png" %
+                         dir_path, 1*cm, -1.49*cm, width=17*cm, height=1.49*cm)
 
 
 class VisaInvitation(RHRegistrationsActionBase):
