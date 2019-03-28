@@ -1,0 +1,5 @@
+definitions:
+  ecmwf:
+    <<: *standard
+    stylesheet: ecmwf.scss
+    title: ECMWF style

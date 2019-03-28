@@ -1,0 +1,15 @@
+@import 'themes/indico';
+
+.item-description {
+  &.contrib-description {
+      display: none;
+  }
+}
+
+.timetable-time {
+  &.nested {
+      .start-time {
+        color: white !important;
+      }
+  }
+}
