@@ -1,4 +1,7 @@
+import os
+
 from flask_pluginengine import render_plugin_template
+from indico.core import signals
 from indico.core.plugins import IndicoPlugin, IndicoPluginBlueprint
 from indico.modules.events.management.views import WPEventManagement
 
@@ -17,6 +20,7 @@ class ECMWFPlugin(IndicoPlugin):
 
     def init(self):
         super(ECMWFPlugin, self).init()
+        self.connect(signals.plugin.get_event_themes_files, self._get_themes_yaml)
         self.template_hook(
             'registration-status-action-button', self._ecmwf_menu)
         self.inject_css('ecmwf_css')
@@ -52,3 +56,6 @@ class ECMWFPlugin(IndicoPlugin):
     def _ecmwf_menu(self, **kwargs):
         regform = kwargs["regform"]
         return render_plugin_template('actions_dropdown_extension.html', regform=regform)
+    
+    def _get_themes_yaml(self, sender, **kwargs):
+        return os.path.join(self.root_path, 'themes-ecmwf-timetable.yaml')

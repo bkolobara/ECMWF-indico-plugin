@@ -1,4 +1,6 @@
-graft indico_clippy/static
+graft ecmwf_indico/static
 graft ecmwf_indico/templates
+graft ecmwf_indico/themes
+recursive-include ecmwf_indico *.yaml
 
 global-exclude *.pyc __pycache__ .keep
