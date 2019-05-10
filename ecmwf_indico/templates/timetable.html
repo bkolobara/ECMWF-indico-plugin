@@ -15,11 +15,9 @@
     {% set anchor = slugify('b', block.id, session_.title, block.title, maxlen=30) %}
 
     <li class="timetable-item timetable-block" id="{{ anchor }}">
-        <span class="timetable-time top-level">
-            {% if not theme_settings.hide_session_block_time %}
-                {{ render_time(block, timezone=timezone) }}
-            {% endif %}
-        </span>
+        <div class="timetable-time top-level">
+            
+        </div>
         <div class="timetable-item-body flexcol">
             <div class="timetable-item-header flexrow">
                 <span class="timetable-title top-level" data-anchor="{{ anchor }}">
@@ -29,9 +27,6 @@
                         {{- session_.title -}}
                     {%- endif -%}
                 </span>
-                {% if block.has_location_info and show_location -%}
-                    {{ render_location(block, parent=event) }}
-                {%- endif %}
                 <div class="timetable-item-actions">
                     {{ render_manage_button(block, 'SESSION_BLOCK', show_notes=show_notes,
                                             show_button=(not event.is_locked and
@@ -39,14 +34,11 @@
                     {{ template_hook('vc-actions', event=event, item=block) }}
                 </div>
             </div>
-            {% if session_.description %}
-                {{ render_description(session_, class='session-description') }}
-            {% endif %}
 
             {% set conveners = block.person_links %}
             {% if conveners %}
                 <div class="convener-list">
-                    <span class="label">{{ ngettext("Convener", "Conveners", conveners|length) }}</span>:
+                    <span class="label">Chair:</span>
                     {{ render_users(conveners|sort(attribute='display_order_key')) -}}
                 </div>
             {% endif %}
@@ -59,25 +51,22 @@
             </table>
 
             {{ render_notes(session_) }}
-
-            {% if entries and not hide_contribs -%}
-                <ul class="meeting-sub-timetable">
-                    {# It's impossible to sort by `lambda:` with Jinja, hence the double-sort #}
-                    {% for entry in entries|sort(attribute='object.title')|sort(attribute='start_dt') %}
-                        {% if entry.type.name == 'CONTRIBUTION' and entry.object.can_access(session.user) %}
-                            {% set theme_context.num_contribution = theme_context.num_contribution + 1 %}
-                            {{ render_contribution(entry.contribution, event, theme_settings, theme_context,
-                                                   nested=true, hide_end_time=true, show_notes=show_notes,
-                                                   timezone=timezone, parent=block, show_location=show_children_location) }}
-                        {% elif entry.type.name == 'BREAK' %}
-                            {{ render_break(entry.break_, event, theme_settings, nested=true, hide_end_time=true,
-                                            timezone=timezone, show_location=show_children_location) }}
-                        {% endif %}
-                    {% endfor %}
-                </ul>
-            {%- endif %}
         </div>
     </li>
+    {% if entries and not hide_contribs -%}
+      {# It's impossible to sort by `lambda:` with Jinja, hence the double-sort #}
+      {% for entry in entries|sort(attribute='object.title')|sort(attribute='start_dt') %}
+          {% if entry.type.name == 'CONTRIBUTION' and entry.object.can_access(session.user) %}
+              {% set theme_context.num_contribution = theme_context.num_contribution + 1 %}
+              {{ render_contribution(entry.contribution, event, theme_settings, theme_context,
+                                      nested=false, hide_end_time=false, show_notes=show_notes,
+                                      timezone=timezone, parent=block, show_location=show_location) }}
+          {% elif entry.type.name == 'BREAK' %}
+              {{ render_break(entry.break_, event, theme_settings, nested=true, hide_end_time=true,
+                              timezone=timezone, show_location=show_location) }}
+          {% endif %}
+      {% endfor %}
+    {%- endif %}
 {% endmacro %}
 
 <!-- Contribution row -->
@@ -85,7 +74,7 @@
                              timezone=none, show_notes=false, show_location=false) -%}
     {% set anchor = slugify(contrib.friendly_id, contrib.title, maxlen=30) %}
     <li class="timetable-item timetable-contrib" id="{{ anchor }}">
-        <span class="timetable-time {{ 'nested' if nested else 'top-level' }}">
+        <div class="timetable-time {{ 'nested' if nested else 'top-level' }}">
             {% if theme_settings.number_contributions %}
                 <span class="start-time">
                     {{ theme_context.num_contribution }}
@@ -93,7 +82,7 @@
             {% else %}
                 {{ render_time(contrib, timezone=timezone, hide_end_time=hide_end_time) }}
             {% endif %}
-        </span>
+        </div>
 
         <div class="timetable-item-body flexcol">
             <div class="timetable-item-header flexrow">
@@ -115,10 +104,6 @@
                     {{ template_hook('vc-actions', event=event, item=contrib) }}
                 </div>
             </div>
-
-            <!-- {% if contrib.description %}
-                {{ render_description(contrib, class='contrib-description') }}
-            {% endif %} -->
 
             {% set speakers = contrib.person_links|selectattr("is_speaker")|list %}
             {% if speakers %}
@@ -148,9 +133,9 @@
 {% macro render_break(item, event, theme_settings, theme_context, parent=none, timezone=none,
                       show_notes=true, hide_end_time=false, nested=false, show_location=false) %}
     <li class="timetable-item timetable-break">
-        <span class="timetable-time break {{ 'nested' if nested else 'top-level' }}">
+        <div class="timetable-time break {{ 'nested' if nested else 'top-level' }}">
             {{ render_time(item, timezone=timezone, hide_end_time=hide_end_time) }}
-        </span>
+        </div>
 
         <div class="timetable-item-body flexcol">
             <div class="timetable-item-header flexrow">

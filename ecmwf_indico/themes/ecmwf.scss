@@ -56,11 +56,38 @@ ul.meeting-timetable {
   padding: 0;
 }
 
-.timetable-time {
-  padding-top: 5px;
+.timetable-item {
+  padding: 5px;
 }
 
-.timetable-time.top-level span.start-time {
+.timetable-block {
+  background-color: #d0ebf4;
+}
+
+.timetable-time {
+  padding-top: 5px;
+  min-width: 160px;
+  flex-basis: auto;
+}
+
+.timetable-block .timetable-time.top-level span.start-time {
+  background: #d0ebf4;
+}
+
+.timetable-item.timetable-break .timetable-item-body span.timetable-title, span.timetable-title {
+  text-align: left;
+  color: #333 !important;
+  min-width: 600px;
+  flex-basis: auto;
+}
+
+div.timetable-time.break, .timetable-time.break span.end-time,
+.timetable-item.timetable-break .timetable-item-body span.timetable-duration,
+.timetable-item.timetable-break .timetable-item-body span.timetable-duration:before {
+  color: #333 !important;
+}
+
+.timetable-time.top-level span.start-time, .timetable-time.break.top-level span.start-time {
   background: white;
   color: #333 !important;
 }
@@ -72,10 +99,6 @@ ul.meeting-timetable {
 .timetable-item {
   display: flex;
   border-bottom: solid 1px #99c3df;
-}
-
-.timetable-time {
-  width: 150px;
 }
 
 .timetable-item-body {
@@ -100,22 +123,27 @@ ul.meeting-timetable {
 .timetable-duration {
   order: 2;
   margin: 5px;
+  flex-basis: auto;
+  min-width: 50px;
 }
 
 .location-info {
   margin: 5px;
   color: #333 !important;
+  flex-basis: auto;
+  min-width: 110px;
 }
 
 .timetable-item-actions {
   order: 3;
+  margin-right: -10px;
 }
 
 .manage-button a {
   padding: 5px !important;
 }
 
-.speaker-list {
+.speaker-list, .convener-list {
   padding-bottom: 5px;
   font-size: 14px;
   color: #333;
