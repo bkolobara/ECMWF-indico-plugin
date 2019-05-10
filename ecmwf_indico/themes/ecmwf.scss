@@ -1,15 +1,122 @@
-@import 'themes/indico';
+@import 'base';
 
-.item-description {
-  &.contrib-description {
-      display: none;
+.agenda-placeholder {
+  @include border-radius;
+  background-color: white;
+  margin-top: 10px;
+  flex-grow: 1;
+  color: $gray;
+  text-align: center;
+  height: 250px;
+
+  .placeholder-icon {
+      font-size: 5em;
+  }
+
+  .agenda-placeholder-content {
+      margin: auto;
+  }
+
+  .placeholder-text {
+      font-size: 1.5em;
+      font-weight: bold;
+  }
+
+  a {
+      color: $link;
+  }
+
+  a:hover {
+      text-decoration: underline;
   }
 }
 
+// ECMWF Customisations
+
+h1 {
+  font-size: 32px;
+  font-weight: 300;
+}
+
+.day-header {
+  background-color: #1576b5;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+  width: auto !important;
+}
+
+.day-header .day-title, .js-go-to-day {
+  color: white !important;
+  font-size: 1.2em;
+}
+
+ul.meeting-timetable {
+  border-left: none;
+  padding: 0;
+}
+
 .timetable-time {
-  &.nested {
-      .start-time {
-        color: white !important;
-      }
-  }
+  padding-top: 5px;
+}
+
+.timetable-time.top-level span.start-time {
+  background: white;
+  color: #333 !important;
+}
+
+.timetable-title {
+  padding-top: 5px;
+}
+
+.timetable-item {
+  display: flex;
+  border-bottom: solid 1px #99c3df;
+}
+
+.timetable-time {
+  width: 150px;
+}
+
+.timetable-item-body {
+  flex-grow: 2;
+}
+
+.timetable-item-header {
+  display: flex;
+  align-content: space-between;
+}
+
+.timetable-item-body .timetable-item-header span.timetable-title {
+  font-size: 15px;
+  font-weight: bold;
+  color: #333;
+}
+
+.timetable-title  {
+  flex-grow: 2;
+}
+
+.timetable-duration {
+  order: 2;
+  margin: 5px;
+}
+
+.location-info {
+  margin: 5px;
+  color: #333 !important;
+}
+
+.timetable-item-actions {
+  order: 3;
+}
+
+.manage-button a {
+  padding: 5px !important;
+}
+
+.speaker-list {
+  padding-bottom: 5px;
+  font-size: 14px;
+  color: #333;
 }

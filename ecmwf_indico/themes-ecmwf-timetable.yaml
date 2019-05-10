@@ -2,4 +2,5 @@ definitions:
   ecmwf:
     <<: *standard
     stylesheet: ecmwf.scss
+    tt_template: :timetable.html
     title: ECMWF style
