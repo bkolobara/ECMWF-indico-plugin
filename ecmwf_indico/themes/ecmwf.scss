@@ -119,3 +119,7 @@ table.time div.material-list div.folder a span.title {
 table.time .item-location {
   color: #555;
 }
+
+table.time div.material-list div.folder a[href$="/go"]:before {
+  content: "" !important; // This is the video play character
+}
