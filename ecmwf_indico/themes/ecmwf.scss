@@ -84,6 +84,10 @@ table.time td.duration {
   text-align: right;
 }
 
+table.time td.location {
+  min-width: 100px;
+}
+
 table.time td.manage-button {
   padding: 0;
 }
@@ -110,4 +114,8 @@ table.time div.material-list div.folder a {
 
 table.time div.material-list div.folder a span.title {
   font-size: 14px;
+}
+
+table.time .item-location {
+  color: #555;
 }

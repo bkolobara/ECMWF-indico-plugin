@@ -44,7 +44,7 @@
               </div>
           {% endif %}
         </td>
-        <td>
+        <td class="location">
           {% if not entries %}
             {% if block.has_location_info and show_location -%}
               {{ render_location(block, parent=event) }}
@@ -97,7 +97,7 @@
             {% if contrib.references -%} {{ render_references(contrib) }} {%- endif %}
             {{ render_attachments(contrib) }}
         </td>
-        <td>
+        <td  class="location">
           {% if contrib.has_location_info -%}
               {{ render_location(contrib, parent=none) }}
           {% endif %}
@@ -140,7 +140,7 @@
           {{ item.title }}
         </div>
       </td>
-      <td>
+      <td class="location">
         {% if item.has_location_info -%}
             {{ render_location(item, parent=none) }}
         {%- endif %}
