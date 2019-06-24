@@ -1,15 +1,56 @@
 {% from 'events/display/common/_manage_button.html' import render_manage_button%}
-{% from 'events/display/indico/_common.html' import render_location, render_users %}
+{% from 'events/display/indico/_common.html' import render_users %}
 {% from 'events/timetable/display/indico/_subcontribution.html' import render_subcontribution %}
 {% from 'events/timetable/display/indico/_common.html' import render_references,
                                                               render_attachments, render_notes,
                                                               render_description, render_time %}
 
 {% macro render_speakers(speakers) -%}
-    <div class="speaker-list">
-        <span class="label">{{ ngettext("Speaker", "Speakers", speakers | length) }}</span>:
-        {{ render_users(speakers | sort(attribute="display_order_key"), title=false) }}
+  <div class="speaker-list">
+    <span class="label">{{ ngettext("Speaker", "Speakers", speakers | length) }}</span>:
+    {{ render_users(speakers | sort(attribute="display_order_key"), title=false) }}
+  </div>
+{%- endmacro %}
+
+{% macro _render_location_tip(item) -%}
+    {% set show_url = item.room and item.room.map_url %}
+    <div class="location-info-tip">
+        {% if item.room_name -%}
+            <h3>{{ item.room_name }}</h3>
+        {% endif %}
+        {% if item.venue_name -%}
+            <h4>{{ item.venue_name }}</h4>
+        {% endif %}
+        {% if item.address %}
+            <div class="location-address">
+                {{- item.address }}
+            </div>
+        {%- endif %}
+        {% if item.room and item.room.capacity %}
+            <div class="icon-user">
+                {{ item.room.capacity }}
+            </div>
+        {% endif %}
+        {% if show_url %}
+            <a href="{{ item.room.map_url }}" class="map-link">
+                {% trans %}Show room on map{% endtrans %}
+            </a>
+        {% endif %}
     </div>
+{%- endmacro %}
+
+{% macro render_location(item) -%}
+    <span class="location-info item-location"
+          data-qtip-html=".qtip-hidden-content"
+          data-qtip-opts='{"hide": {"fixed": true, "delay": 500}}'>
+        <i class="icon-location"></i>
+        <span class="text">
+          {{ item.room_name }}
+        </span>
+    </span>
+    <span class="qtip-hidden-content">
+        {{ _render_location_tip(item) }}
+    </span>
 {%- endmacro %}
 
 <!-- Session Block -->
@@ -47,7 +88,7 @@
         <td class="location">
           {% if not entries %}
             {% if block.has_location_info and show_location -%}
-              {{ render_location(block, parent=event) }}
+              {{ render_location(block) }}
             {%- endif %}
           {% endif %}
         </td>
@@ -99,7 +140,7 @@
         </td>
         <td  class="location">
           {% if contrib.has_location_info -%}
-              {{ render_location(contrib, parent=none) }}
+              {{ render_location(contrib) }}
           {% endif %}
         </td>
         <td class="duration">
@@ -142,7 +183,7 @@
       </td>
       <td class="location">
         {% if item.has_location_info -%}
-            {{ render_location(item, parent=none) }}
+            {{ render_location(item) }}
         {%- endif %}
       </td>
       <td class="duration">

@@ -118,6 +118,11 @@ table.time div.material-list div.folder a span.title {
 
 table.time .item-location {
   color: #555;
+  display: flex;
+}
+
+table.time .item-location i{
+  padding: 1px 2px 0 0;
 }
 
 table.time div.material-list div.folder a[href$="/go"]:before {
