@@ -69,7 +69,7 @@
           {% endif %}
         </td> 
         <td>
-          <div class="title" data-anchor="{{ anchor }}">
+          <div class="title">
             {%- if block.title and block.title != session_.title -%}
               {{- session_.title -}}: {{ block.title -}}
             {%- else -%}
@@ -130,7 +130,7 @@
         </td>
 
         <td>
-            <div class="title" data-anchor="{{ anchor }}">
+            <div class="title">
               {{ contrib.title }}
             </div>
             {% set speakers = contrib.person_links|selectattr("is_speaker")|list %}
