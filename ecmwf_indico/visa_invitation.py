@@ -129,7 +129,7 @@ class VisaInvitationPDF(object):
         contact_data = contact_data.replace("\n", "<br/>")
         contact = Paragraph(contact_data, normalStyle)
         contact.wrap(350, 400)
-        contact.drawOn(canvas, 1*cm, -4*cm)
+        contact.drawOn(canvas, 1*cm, -5*cm)
         # Body
         body_data = """
         Dear %s %s
@@ -151,7 +151,7 @@ class VisaInvitationPDF(object):
         body_data = body_data.replace("\n", "<br/>")
         body = Paragraph(body_data, normalStyle)
         body.wrap(500, 600)
-        body.drawOn(canvas, 1*cm, -11*cm)
+        body.drawOn(canvas, 1*cm, -12*cm)
         # Footer
         canvas.translate(0, -23.5*cm)
         canvas.drawImage("%s/static/img/ecmwf_footer.png" %
