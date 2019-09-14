@@ -9,9 +9,9 @@
     #main .region-content {
       form {
         @import "reset";
+        @import "conference_page";
       }
-      @import "conference_page";
-      // img {width: 100% !important;}
+      
       padding-bottom: 10px;
     }
 
