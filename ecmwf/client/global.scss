@@ -1,0 +1,453 @@
+$blue: #275992;
+$blue--light: #357ac8;
+$black: #333;
+
+// Disable a few header elements
+.button-bar a[title="Change theme"], a#protection-details-link,  a#tz-selector-link {
+  display: none;
+}
+
+* {
+  font-family: "Open Sans",Helvetica,sans-serif;
+}
+
+body {
+  font-size: 15px;
+  font-family: "Open Sans",Helvetica,sans-serif;
+  background-color: white;
+}
+
+div.login-container img.header-logo {
+  content: url("/static/custom/images/ecmwf_login_logo.png");
+}
+
+div.page-header {
+    img.header-logo {
+    height: 24px;
+    margin: 12px 0 8px 40px;
+  }
+  .flexcol {
+    padding-right: 30px;
+  }
+}
+.page-header > :first-child {
+  background-color: black;
+  border-bottom: 1px solid white;
+  a {
+    color: white !important;
+    &:hover {
+      color: white;
+    }
+  }
+}
+
+.toolbar.global-menu {
+  background: #bbb !important;
+  border-width: 0;
+  a {
+    color: $black;
+  }
+  >a:hover,
+  a.open {
+    background: #fff !important;
+  }
+}
+
+.dropdown>li {
+    height: 2rem;
+    min-width: 1em;
+    border-bottom: 1px solid #ccc;
+}
+
+.category-header {
+  padding: 20px 40px;
+}
+
+.category-title {
+  font-weight: 300;
+  font-size: 32px;
+  color: initial;
+}
+
+.event-list h4 {
+  margin-left: 0;
+}
+.event-list li {
+  margin: 0;
+}
+
+div.page-header-dark {
+    background: black;
+}
+
+.footer {
+  background: black;
+  color: white;
+  padding: 2px 40px 3px 40px;
+  * {
+    line-height: initial;
+  }
+  a {
+    color: white;
+    &:hover,
+    &:focus {
+      text-decoration: underline;
+    }
+  }
+}
+
+.login-page .footer {
+  background: #f9f9f9;
+  color: black;
+  padding: 10px;
+  margin-left: -50px;
+}
+
+
+// craxy overrides
+.confheader {
+    background: transparent;
+}
+.confTitleBox {
+    color: $black;
+    min-height: 90px;
+    text-align: left;
+    background: transparent;
+}
+.conference-title-link {
+    font-size: 33px;
+    background: transparent;
+    font-weight: 300;
+    color: $black;
+}
+
+.confSubTitleBox {
+    background: transparent;
+    border-bottom: 1px solid $black;
+    border-top: 1px solid $black;
+    padding: .5rem 0;
+}
+
+#outer {
+    width: 100%;
+    position: relative;
+    background: transparent;
+    border: 0;
+}
+
+.menuConfSelected, .menuConfMiddleCellSelected {
+    color: $black;
+    background: transparent;
+    border-bottom: 0;
+    border-top: 0;
+    font-weight: 700;
+}
+
+#outer li a:not(.no-link):hover {
+    background: transparent;
+    text-decoration: underline;
+}
+
+#outer>li.menuConfTitle {
+    border-bottom: 1px solid;
+}
+.banner .title {
+    margin-bottom: 19px;
+    font-family: "Open Sans",Helvetica,sans-serif;
+    font-size: 2em;
+    color: $black;
+}
+.new-label {
+    font-size: 2em;
+    vertical-align: middle;
+    color: $blue--light;
+    margin-left: .2em;
+}
+
+.category-info {
+    color: $black;
+    font-size: 20px;
+}
+
+.info-message-box,
+.message-message-box {
+    background-color: white;
+    border: 1px solid $black;
+}
+.info-message-box,
+.message-message-box,
+.highlight-message-box,
+.success-message-box,
+.warning-message-box,
+.error-message-box,
+.danger-message-box {
+    border-radius: 0;
+    color: $black;
+    padding: 10px;
+    margin-bottom: 32px;
+}
+
+.event-list h4 {
+    color: $black;
+    border-bottom: 1px solid $black;
+}
+
+.event-list h4.current-month {
+    border-bottom: 1px solid $black;
+}
+.event-list h4.current-month span {
+    padding: 0;
+    color: $black;
+    background-color: transparent;
+    border-radius: 0;
+    border-bottom: 1px solid $black;
+}
+
+.event-list li .date {
+    padding: 0;
+    font-size: 14px;
+    color: $black;
+    width: 120px;
+    display: inline-block;
+}
+
+a,
+.fake-link,
+.ui-widget-content a {
+    color: $blue;
+}
+
+a:hover,
+.fake-link:hover,
+.ui-widget-content a:hover {
+    color: $blue--light;
+    text-decoration: underline;
+}
+
+.meeting-timetable {
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    -ms-border-radius: 0;
+    -o-border-radius: 0;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 1em 1em .5em 0;
+    background-color: white;
+    border-left: 1px solid $black;
+}
+.timetable-time,
+.timetable-time .end-time,
+div.event-header,
+.event-time-data time,
+.event-location .text,
+.chairperson-list .author,
+.timetable-time .start-time {
+   background-color: transparent;
+   color: $black !important; //urg
+}
+
+.event-sub-header {
+  font-size: 16px;
+}
+
+div.event-header {
+  padding: 0;
+}
+
+.event-header-lecture .lecture-category {
+    color: $blue;
+}
+
+div.event-details .event-details-label {
+    width: 120px;
+    text-align: left;
+    font-weight: normal;
+    margin-right: 1em;
+    font-size: 20px;
+    font-weight: 300;
+    margin: 32px 0 12px 0;
+}
+
+.item-description {
+  font-family: "Open Sans",Helvetica,sans-serif;
+  color: $black;
+}
+
+.meeting-timetable,
+.note-area-wrapper .note-area {
+    font-family: "Open Sans",Helvetica,sans-serif;
+}
+
+.event-sub-header {
+  -webkit-border-radius: none;
+  -moz-border-radius: none;
+  -ms-border-radius: none;
+  -o-border-radius: none;
+  border-radius: none;
+  box-shadow: none;
+  padding: 16px 0;
+}
+
+div.event-details .event-details-row {
+  display: block;
+}
+
+.timetable-time.top-level .start-time {
+    background-color: $black;
+    -moz-border-radius: 0;
+    -ms-border-radius: 0;
+    -o-border-radius: 0;
+    border-radius: 0;
+    color: white !important; //urgh
+    &:before {
+      content: ' ';
+      border-color: grey grey transparent transparent;
+  }
+}
+
+.timetable-time.break.top-level .start-time {
+  background-color: $blue;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  -o-border-radius: 0;
+  border-radius: 0;
+  &:before {
+    content: ' ';
+    border-color: $blue--light $blue--light transparent transparent;
+  }
+}
+
+.timetable-time.break,
+.timetable-time.break .end-time {
+  color: $blue--light !important;
+}
+
+.timetable-item.timetable-break .timetable-item-body .timetable-title {
+    text-align: center;
+    color: $blue--light !important;
+}
+
+.timetable-item-body .timetable-item-header .timetable-title {
+    font-size: 20px;
+}
+
+div.event-header,
+.header-data:before {
+  color: $black;
+}
+div.event-header h1 {
+  color: $black;
+  font-size: 32px;
+  margin-top: 64px;
+}
+
+.item-location {
+  color: $blue--light;
+}
+
+.timetable-item.timetable-break .timetable-item-body .timetable-duration,
+.timetable-item.timetable-break .timetable-item-body .timetable-duration:before {
+    color: $blue--light !important;
+}
+
+.i-button.accept:not(.label):not(.borderless):not(.text-color),
+div.session-bar :not(.label):not(.borderless):not(.text-color).i-button.protection-public,
+.categorynav .category-list .item .button-wrapper .accept:not(.label):not(.borderless):not(.text-color).action-button,
+div.session-bar .categorynav .category-list .item .button-wrapper :not(.label):not(.borderless):not(.text-color).protection-public.action-button,
+.categorynav .category-list .item .button-wrapper div.session-bar :not(.label):not(.borderless):not(.text-color).protection-public.action-button,
+.accept:not(.label):not(.borderless):not(.text-color).action-button,
+div.session-bar :not(.label):not(.borderless):not(.text-color).protection-public.action-button,
+.i-button:not(.label), .categorynav .category-list .item .button-wrapper :not(.label).action-button,
+:not(.label).action-button {
+    background: transparent;
+    border: 0;
+    border-color: #67a766;
+    color: #777;
+    &:hover {
+      background: transparent;
+      background-image: none;
+      background-image: none;
+      background-image: none;
+      background-image: none;
+      background-image: none;
+      border-color: $black;
+      color: $black;
+    }
+}
+
+.toolbar .i-button.arrow:last-of-type:not(.borderless),
+.toolbar .categorynav .category-list .item .button-wrapper .arrow:last-of-type:not(.borderless).action-button,
+.categorynav .category-list .item .button-wrapper .toolbar .arrow:last-of-type:not(.borderless).action-button,
+.toolbar .arrow:last-of-type:not(.borderless).action-button {
+    border-right-width: 0;
+}
+
+.i-button.highlight:not(.label):not(.borderless):not(.text-color),
+.i-selection input[type=checkbox]:checked+label:not(.label):not(.borderless):not(.text-color),
+.i-selection input[type=radio]:checked+label:not(.label):not(.borderless):not(.text-color),
+.categorynav .category-list .item .button-wrapper .highlight:not(.label):not(.borderless):not(.text-color).action-button,
+.categorynav .category-list .item .button-wrapper :not(.label):not(.borderless):not(.text-color).action-button,
+.highlight:not(.label):not(.borderless):not(.text-color).action-button, :not(.label):not(.borderless):not(.text-color).action-button {
+    border-color: #585a5d;
+    color: #fff;
+    background: none;
+    background-color: #585a5d;
+    margin: 0;
+    -moz-border-radius-bottomleft: 0;
+    -webkit-border-bottom-left-radius: 0;
+    border-bottom-left-radius: 0;
+    -moz-border-radius-topleft: 0;
+    -webkit-border-top-left-radius: 0;
+    border-top-left-radius: 0;
+    -moz-border-radius-bottomright: 0;
+    -webkit-border-bottom-right-radius: 0;
+    border-bottom-right-radius: 0;
+    -moz-border-radius-topright: 0;
+    -webkit-border-top-right-radius: 0;
+    border-top-right-radius: 0;
+    &:hover {
+      background: $black;
+    }
+
+}
+
+.toolbar .group .i-button:not(.hidden):last-child,
+.i-has-action .i-button:not(.hidden):last-child,
+.toolbar .group .categorynav .category-list .item .button-wrapper :not(.hidden):last-child.action-button,
+.categorynav .category-list .item .button-wrapper .toolbar .group :not(.hidden):last-child.action-button,
+.i-has-action .categorynav .category-list .item .button-wrapper :not(.hidden):last-child.action-button,
+.categorynav .category-list .item .button-wrapper .i-has-action :not(.hidden):last-child.action-button,
+.toolbar .group :not(.hidden):last-child.action-button, .i-has-action :not(.hidden):last-child.action-button {
+  -moz-border-radius-bottomright: 0;
+    -webkit-border-bottom-right-radius: 0;
+    border-bottom-right-radius: 0;
+    -moz-border-radius-topright: 0;
+    -webkit-border-top-right-radius: 0;
+    border-top-right-radius: 0;
+    border-right-width: 0;
+}
+
+.dialog-page header .page-info, .management-page header .page-info,
+.fixed-width-standalone-page header .page-info,
+.fixed-width-standalone-text-page header .page-info,
+.conference-page header .page-info,
+.meeting-page header .page-info, h1,
+.corner-message, div.announcement-bar,
+div.main-breadcrumb, div.session-bar,
+#filter-placeholder,
+.qtip-default.add-field-qtip, .side-menu,
+.categorynav .category-list .search-results-list .title strong,
+.category-calendar-page header .page-info, .timetable-title,
+.participant-list-wrapper ul.participant-list,
+.paper-content .spotlight-file-name {
+  font-family: "Open Sans",Helvetica,sans-serif;
+
+}
+
+.reviewing-page {
+  padding-bottom: 50px;
+}
+
+.past-events > .info-message-box {
+  margin: 20px 0;
+}

@@ -1,0 +1,87 @@
+{# Displays title, description and all events of subcategories. #}
+{% macro sub_categories(parent_category, format_event_date, course=false) %}
+  {% if parent_category.children %}
+    {% for category in parent_category.children %}
+      <h2>{{category.title}}</h2>
+      {{category.description}}
+      {{events(category, format_event_date, course)}}
+    {% endfor %}
+  {% endif %}
+{% endmacro %}
+
+{# Displays events in tables sorted by years. If it's a course, display the "Course title" table header #}
+{% macro events(category, format_event_date, course=false) %}
+  {% if category.events %}
+    {% set current_year = now().year %}
+    {% set iteration = {"year": 0} %} {# We need to use a map because of jinja2 variable setting #}
+    {% for event in category.events if event.start_dt.year >= current_year %}
+      {% if  event.start_dt.year > iteration.year %}
+        {% if iteration.year != 0 %}
+          {# Close previous table before transitioning to new year #}
+          </tbody>
+          </table>
+        {% endif %}
+
+        {# Start new table for new year #}
+        <h3 style="padding-left: 8px;">{{ event.start_dt.year }} calendar</h3>
+        <table style="width:100%">
+          {% if course %}
+            <thead>
+              <tr>
+                <th scope="col">Course title</th>
+                <th scope="col" style="width:130px">Course dates</th>
+              </tr>
+            </thead>
+          {% endif %}
+        <tbody>
+        {% if iteration.update({'year': event.start_dt.year}) %} {% endif %}
+      {% endif %}
+
+      {# For each event we print a row #}
+      <tr>
+        <td>
+          <p>
+            <a href="{{ event.url }}">
+              {{ event.title }}
+            </a>
+          </p>
+        </td>
+        <td>
+          <p style="white-space: nowrap;">
+            {{ format_event_date(event) }}
+          </p>
+        </td>
+      </tr>
+    {% endfor %}
+
+    {# Close last iteration of table #}
+    </tbody>
+    </table>
+  {% endif %}
+{% endmacro %}
+
+{% macro materials(category) %}
+  <ul class="menu nav">
+    {% for material in category.attached_items.files %}
+    <li>
+      <a href="{{material.download_url}}">
+        {{material.title}}
+      </a>
+    </li>
+    {% endfor %}
+    {% for material_folder in category.attached_items.folders %}
+      <span style="font-size: 16px; font-weight: bold; color: #777; padding-top: 15px; display: block;"> 
+        {{ material_folder.title }}
+      </span>
+      <ul style="list-style-type: none; padding-top: 12px; padding-left: 10px;">
+        {% for material in material_folder.attachments %}
+        <li>
+          <a href="{{material.download_url}}">
+            {{material.title}}
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    {% endfor %}
+  </ul>
+{% endmacro %}

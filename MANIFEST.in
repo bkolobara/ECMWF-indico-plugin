@@ -1,6 +1,5 @@
-graft ecmwf_indico/static
-graft ecmwf_indico/templates
-graft ecmwf_indico/themes
-recursive-include ecmwf_indico *.yaml
+graft ecmwf/static
+graft ecmwf/templates
+graft ecmwf/indico_template_overrides
 
 global-exclude *.pyc __pycache__ .keep

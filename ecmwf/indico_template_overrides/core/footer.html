@@ -1,0 +1,53 @@
+{% extends '~footer.html' %}
+
+{% block footer -%}
+    {%- set indico -%}
+        <a href="https://getindico.io">Indico</a>
+    {%- endset -%}
+    <div class="flexrow f-j-space-between">
+        <div class="flexrow f-a-center">
+            © European Centre for Medium-Range Weather Forecasts
+        </div>
+
+        <ul class="footer-links">
+            <li>
+                <a href="https://www.ecmwf.int/node/6229">
+                    {% trans %}Accessibility{% endtrans %}
+                </a>
+            </li>
+            <li>
+                <a href="https://www.ecmwf.int/node/6228">
+                    {% trans %}Privacy{% endtrans %}
+                </a>
+            </li>
+            <li>
+                <a href="https://www.ecmwf.int/node/6227">
+                    {% trans %}Terms of use{% endtrans %}
+                </a>
+            </li>
+            {% if indico_config.PUBLIC_SUPPORT_EMAIL %}
+                <li>
+                    <a href="{{ url_for('core.contact') }}">
+                        {% trans %}Contact Us{% endtrans %}
+                    </a>
+                </li>
+            {% endif %}
+            <li>
+                <a href="{{ indico_config.HELP_URL }}">
+                    {% trans %}Help{% endtrans %}
+                </a>
+            </li>
+            {% for item in template_hook('page-footer', as_list=true) %}
+                <li>
+                    {{ item }}
+                </li>
+            {% endfor %}
+        </ul>
+        {% if footer_extra %}
+        <div class="footer-extra">
+            {% block footer_extra %}
+            {% endblock %}
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}

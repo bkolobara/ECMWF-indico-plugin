@@ -1,0 +1,127 @@
+{%- macro _format_event_date(event) -%}
+    {% set start_dt = event.start_dt_display.astimezone(event.display_tzinfo) %}
+    {% set end_dt = event.end_dt_display.astimezone(event.display_tzinfo) %}
+    {% if start_dt.date() == end_dt.date() %}
+        {{ start_dt | format_date('long') }}
+    {% elif start_dt.year == end_dt.year and start_dt.month == end_dt.month %}
+        {{ start_dt.day }}-{{ end_dt.day }} {{ start_dt | format_date('MMMM yyyy') }}
+    {% else %}
+        {% trans start=start_dt|format_date('long'), end=end_dt|format_date('long') -%}
+            {{ start }} to {{ end }}
+        {%- endtrans %}
+    {% endif %}
+{%- endmacro -%}
+
+{% macro menu(conf_layout_params) %}
+  <ul class="menu nav">
+  {%- for entry in conf_layout_params.menu if entry.is_visible %}
+    <li>
+      <a {% if entry.url %}href="{{ entry.url }}"{% else %}class="no-link"{% endif %}
+         {% if entry.new_tab %}target="_blank"{% endif %}
+         style="{% if entry.id == conf_layout_params.active_menu_item %} font-weight: 700; {% endif %}">
+        {{- entry.localized_title -}}
+      </a>
+    </li>
+    {% if entry.children %}
+      <ul style="list-style-type: none; margin-top: -10px;">
+      {% for sub_entry in entry.children %}
+        <li style="border: none;">
+          <a {% if sub_entry.url %}href="{{ sub_entry.url }}"{% else %}class="no-link"{% endif %}
+            {% if sub_entry.new_tab %}target="_blank"{% endif %}
+            style="{% if sub_entry.id == conf_layout_params.active_menu_item %} font-weight: 700; {% endif %}">
+            {{- sub_entry.localized_title -}}
+          </a>
+        </li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+  {% endfor -%}
+  </ul>
+{% endmacro %}
+
+{% macro get_attachment_icon(attachment) -%}
+    {%- if attachment.type.name != 'link' -%}
+        {{ icon_from_mimetype(attachment.file.content_type, 'icon-file-filled') }}
+    {%- endif -%}
+{%- endmacro %}
+
+{% macro materials(event) %}
+  <div class="field-items">
+    {% for material in event.attached_items.files %}
+    <div class="field-item">
+      <p>
+      <a class="attachment {{ get_attachment_icon(material) }}"
+         href="{{material.download_url}}">
+        {{material.title}}
+      </a>
+      </p>
+    </div>
+    {% endfor %}
+    {% for material_folder in event.attached_items.folders %}
+      <span style="font-size: 16px; font-weight: bold; color: #777; display: block;"> 
+        {{ material_folder.title }}
+      </span>
+      <div style="list-style-type: none; padding-top: 12px; padding-left: 10px;">
+        {% for material in material_folder.attachments %}
+        <div class="field-item">
+          <p>
+            <a class="attachment {{ get_attachment_icon(material) }}"
+              href="{{material.download_url}}">
+              {{material.title}}
+            </a>
+          </p>
+        <div class="field-item">
+        {% endfor %}
+      </div>
+  {% endfor %}
+  </div>
+{% endmacro %}
+
+
+<div class="ecmwf-page">
+<main id="main">
+  <div class="container-category upper">
+    <div class="row">
+      <div class="col-md-offset-1 col-lg-offset-2 col-sm-24 col-md-22 col-lg-20"></div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-offset-6 col-sm-24 col-lg-12">
+        <h1 class="title " id="page-title">
+          {{ event.title }}
+        </h1>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-category middle">
+    <div class="row">
+      <div class="col-sm-8 col-md-6">
+        <div class="region region-sidebar-first">
+          <div id="block-menu-block-2" class="block block-menu-block clearfix">
+            <div class="menu-block-wrapper menu-block-2 menu-name-main-menu parent-mlid-0 menu-level-3">
+              {{ menu(conf_layout_params) }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-16 col-md-12">
+        <div class="region region-content">
+          {% block content %}{% endblock %}
+        </div>
+      </div>
+
+      <div class="col-sm-24 col-md-6">
+        <div class="region region-sidebar-second">
+          <div class="node node-page node-sidebar_second">
+            <div class="field field-name-field-right-sidebar-block field-type-text-long field-label-hidden">
+              {{ materials(event) }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+</div>

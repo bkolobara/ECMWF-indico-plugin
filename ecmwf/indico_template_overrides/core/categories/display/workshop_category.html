@@ -1,0 +1,91 @@
+{% from "categories/display/common_category.html" import sub_categories, events, materials %}
+
+<div class="ecmwf-page">
+  <main id="main">
+    <div class="container-category upper">
+      <div class="row">
+        <div class="col-md-offset-1 col-lg-offset-2 col-sm-24 col-md-22 col-lg-20"></div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-offset-6 col-sm-24 col-lg-12">
+          <h1 class="title " id="page-title">{{ category.title }}</h1>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-category middle">
+      <div class="row">
+        <div class="col-sm-8 col-md-6">
+          <div class="region region-sidebar-first">
+            <div id="block-menu-block-2" class="block block-menu-block clearfix">
+              <div class="menu-block-wrapper menu-block-2 menu-name-main-menu parent-mlid-0 menu-level-3">
+                {{ materials(category) }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-16 col-md-12">
+          <div class="region region-content">
+            <div id="block-system-main" class="block block-system clearfix">
+              <article
+                id="node-79"
+                class="node node-page clearfix"
+                about="https://www.ecmwf.int/en/learning/training"
+                typeof="foaf:Document"
+              >
+                <header>
+                  <span property="dc:title" content="Training" class="rdf-meta element-hidden"> </span>
+                  <span property="sioc:num_replies" content="0" datatype="xsd:integer" class="rdf-meta element-hidden">
+                  </span>
+                </header>
+                <div class="field field-name-body field-type-text-with-summary field-label-hidden">
+                  <div class="field-items">
+                    <div class="field-item even" property="content:encoded">
+                      {{ category.description }}
+                      {{ events(category, format_event_date) }}
+                      {{ sub_categories(category, format_event_date) }}
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-24 col-md-6">
+          <div class="region region-sidebar-second">
+            <div
+              class="node node-page node-sidebar_second"
+              about="https://www.ecmwf.int/en/learning/workshops"
+              typeof="foaf:Document"
+            >
+              <div class="field field-name-field-right-sidebar-block field-type-text-long field-label-hidden">
+                <div class="field-items">
+                  <div class="field-item even">
+                    <p>
+                      View full
+                      <a href="https://www.ecmwf.int/en/about/what-we-do/calendar">calendar of events</a>
+                    </p>
+                    <hr />
+                    <p>
+                      Subscribe to email alert list:
+                    </p>
+                    <p>
+                      -
+                      <a
+                        href="mailto:seminar_announcement@lists.ecmwf.int?subject=Subscription%20to%20informal%20seminar%20alerts"
+                        >Informal seminars</a
+                      >&nbsp;
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

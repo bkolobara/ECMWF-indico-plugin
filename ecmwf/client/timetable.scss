@@ -1,7 +1,8 @@
+.ecmwf-page {
+
 @import 'base';
 
 .agenda-placeholder {
-  @include border-radius;
   background-color: white;
   margin-top: 10px;
   flex-grow: 1;
@@ -31,6 +32,12 @@
   }
 }
 
+.livestreamed {
+  padding-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
 // ECMWF timetable
 table.time {
   border-collapse: collapse;
@@ -50,13 +57,17 @@ table.time td {
 table.time tr.day-header td {
   white-space: nowrap;
   color: #fff;
-  font-size: 1.2em;
+  font-size: 1em;
   padding: 5px 10px 5px 10px;
   vertical-align: top;
 }
 
-table.time td div.title{
+table.time td div.title {
   font-weight: bold;
+}
+
+table.time td div.attachments {
+  margin: 3px -3px;
 }
 
 table.time tr.day-header td.jump-calendar {
@@ -73,7 +84,7 @@ table.time a:hover {
 }
 
 table.time ul.dropdown a {
-  font-size: 15px;
+  font-size: 1em;
 }
 
 table.time td.time, table.time td.duration {
@@ -85,7 +96,7 @@ table.time td.duration {
 }
 
 table.time td.location {
-  min-width: 100px;
+  max-width: 80px;
 }
 
 table.time td.manage-button {
@@ -97,8 +108,16 @@ table.time tr.non-empty-session {
 }
 
 table.time div.speaker-list {
-  font-size: 14px;
+  font-size: 1em;
   margin-bottom: 5px;
+}
+
+table.time td div.attachments {
+  margin: 4px 0;
+}
+
+table.time td div.attachments a.attachment {
+  margin-left: 0 !important;
 }
 
 table.time div.material-list div.folder {
@@ -113,7 +132,7 @@ table.time div.material-list div.folder a {
 }
 
 table.time div.material-list div.folder a span.title {
-  font-size: 14px;
+  font-size: 1em;
 }
 
 table.time .item-location {
@@ -127,4 +146,12 @@ table.time .item-location i{
 
 table.time div.material-list div.folder a[href$="/go"]:before {
   content: "" !important; // This is the video play character
+}
+
+@media (max-width: 1200px) {
+  // Remove manage button on small screens
+  table.time td.manage-button {
+    display: none;
+  }
+}
 }

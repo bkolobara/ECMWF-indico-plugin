@@ -1,0 +1,46 @@
+{% extends 'events/display/conference/base.html' %}
+
+{%- macro _format_event_date(event) -%}
+    {% set start_dt = event.start_dt_display.astimezone(event.display_tzinfo) %}
+    {% set end_dt = event.end_dt_display.astimezone(event.display_tzinfo) %}
+    {% if start_dt.date() == end_dt.date() %}
+        {{ start_dt | format_date('long') }}
+    {% elif start_dt.year == end_dt.year and start_dt.month == end_dt.month %}
+        {{ start_dt.day }}-{{ end_dt.day }} {{ start_dt | format_date('MMMM yyyy') }}
+    {% else %}
+        {% trans start=start_dt|format_date('long'), end=end_dt|format_date('long') -%}
+            {{ start }} to {{ end }}
+        {%- endtrans %}
+    {% endif %}
+{%- endmacro -%}
+
+{% block content %}
+<div id="block-system-main" class="block block-system clearfix">
+<article class="node node-page clearfix">
+  <header>
+    <span
+      property="dc:title"
+      content="{{ event.title }}"
+      class="rdf-meta element-hidden"
+    ></span>
+  </header>
+  <div class="field field-name-body field-type-text-with-summary field-label-hidden">
+    <div class="field-items">
+      <div class="field-item even" property="content:encoded">
+        <p>
+          <strong>{{ event.venue_name }}{% if event.address %} | {{ event.address }}{% endif %} | {{ _format_event_date(event) }}</strong>
+        </p>
+        <p>
+          {% if event.has_logo %}
+              <img class="file-default media-element" src="{{ event.logo_url }}" style="width: 100%"/>
+          {% endif %}
+        </p>
+        <p>
+        {{ event.description }}
+        </p>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+{% endblock %}

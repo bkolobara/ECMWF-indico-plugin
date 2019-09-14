@@ -1,0 +1,133 @@
+{% from "categories/display/common_category.html" import sub_categories, events, materials %}
+
+<div class="ecmwf-page">
+  <main id="main">
+    <div class="container-category upper">
+      <div class="row">
+        <div class="col-md-offset-1 col-lg-offset-2 col-sm-24 col-md-22 col-lg-20"></div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-offset-6 col-sm-24 col-lg-12">
+          <h1 class="title " id="page-title">{{ category.title }}</h1>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-category middle">
+      <div class="row">
+        <div class="col-sm-8 col-md-6">
+          <div class="region region-sidebar-first">
+            <div id="block-menu-block-2" class="block block-menu-block clearfix">
+              <div class="menu-block-wrapper menu-block-2 menu-name-main-menu parent-mlid-0 menu-level-3">
+                {{ materials(category) }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-16 col-md-12">
+          <div class="region region-content">
+            <div id="block-system-main" class="block block-system clearfix">
+              <article
+                id="node-79"
+                class="node node-page clearfix"
+                about="https://www.ecmwf.int/en/learning/training"
+                typeof="foaf:Document"
+              >
+                <header>
+                  <span property="dc:title" content="Training" class="rdf-meta element-hidden"> </span>
+                  <span property="sioc:num_replies" content="0" datatype="xsd:integer" class="rdf-meta element-hidden">
+                  </span>
+                </header>
+                <div class="field field-name-body field-type-text-with-summary field-label-hidden">
+                  <div class="field-items">
+                    <div class="field-item even" property="content:encoded">
+                      {{ category.description }}
+                      {{ events(category, format_event_date, true) }}
+                      {{ sub_categories(category, format_event_date, true) }}
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-24 col-md-6">
+          <div class="region region-sidebar-second">
+            <div
+              class="node node-page node-sidebar_second"
+              about="https://www.ecmwf.int/en/learning/training"
+              typeof="foaf:Document"
+            >
+              <div class="field field-name-field-right-sidebar-block field-type-text-long field-label-hidden">
+                <div class="field-items">
+                  <div class="field-item even">
+                    <p>
+                      ECMWF training courses are freely available to
+                      <abbr
+                        title="Austria, Belgium, Croatia, Denmark, Finland, France, Germany, Greece, Iceland, Ireland, Italy, Luxembourg, the Netherlands, Norway, Portugal, Serbia, Slovenia, Spain, Sweden, Switzerland, Turkey, United Kingdom "
+                        >Member States</abbr
+                      >
+                      and
+                      <abbr
+                        title="Bulgaria, Czech Republic, Estonia, Hungary, Israel, Latvia, Lithuania, Montenegro, Morocco, North Macedonia, Romania, Slovakia"
+                      >
+                        Co-operating States
+                      </abbr>
+                      (MS/CS).
+                    </p>
+                    <p>
+                      Applicants from International Organisations and non-Member and Co-operating States of ECMWF
+                      (non-MS/CS) may apply to attend any of the training courses; for these applicants a
+                      <a href="https://www.ecmwf.int/en/learning/training/2020-training-course-fees"> course fee</a>
+                      is payable. Applications must be accompanied by a&nbsp;<a
+                        data-fid="46754"
+                        href="https://www.ecmwf.int/sites/default/files/Fee%20statement.docx"
+                      >
+                        <span class="file file-default media-element">
+                          statement
+                        </span>
+                      </a>
+                      to confirm which institution will be responsible for paying the fees.
+                    </p>
+                    <p>
+                      Priority is given to Member and Co-operating State applications.
+                    </p>
+                    <hr />
+                    <h2>#ECLearn</h2>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="block-block-16" class="block block-block clearfix">
+              <h3>Contact</h3>
+              <p>
+                <a href="mailto:training@lists.ecmwf.int">training@lists.ecmwf.int</a>
+              </p>
+              <h3>Resources</h3>
+              <p>
+                <a href="https://confluence.ecmwf.int/display/OPTR/Our+training+resources"
+                  >View our training resources</a
+                >
+              </p>
+              <h3>Get email updates on our training initiatives</h3>
+              <p>
+                <a href="mailto:sympa@lists.ecmwf.int?subject=subscribe%20outreach%40lists.ecmwf.int">Subscribe</a>
+              </p>
+              <p>
+                <a href="mailto:sympa@lists.ecmwf.int?subject=unsubscribe%20outreach%40lists.ecmwf.int">Unsubscribe</a>
+              </p>
+              {% if category.has_logo %}
+              <p>
+                <img src="{{ category.logo_url }}" class="file-default media-element" alt="" />
+              </p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

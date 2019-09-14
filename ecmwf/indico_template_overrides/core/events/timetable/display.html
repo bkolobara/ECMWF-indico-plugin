@@ -1,0 +1,262 @@
+{% extends 'events/display/conference/base.html' %}
+{% from 'events/display/common/_manage_button.html' import render_manage_button%}
+{% from 'events/display/indico/_common.html' import render_users %}
+{% from 'events/timetable/display/indico/_subcontribution.html' import render_subcontribution %}
+{% from 'events/timetable/display/indico/_common.html' import render_references, render_attachments,
+                                                              render_notes, render_description, render_time %} 
+
+{% macro render_speakers(speakers) -%}
+<div class="speaker-list">
+  <span class="label">{{ ngettext("Speaker", "Speakers", speakers | length) }}</span>:
+  {{ render_users(speakers | sort(attribute="display_order_key"), title=false) }}
+</div>
+{%- endmacro %}
+
+{% macro _render_location_tip(item) -%}
+{% set show_url = item.room and item.room.map_url %}
+<div class="location-info-tip">
+  {% if item.room_name -%}
+    <h3>{{ item.room_name }}</h3>
+  {% endif %}
+  {% if item.venue_name -%}
+    <h4>{{ item.venue_name }}</h4>
+  {% endif %}
+  {% if item.address %}
+    <div class="location-address">
+      {{ item.address }}
+    </div>
+  {%- endif %}
+  {% if item.room and item.room.capacity %}
+    <div class="icon-user">
+      {{ item.room.capacity }}
+    </div>
+  {% endif %}
+  {% if show_url %}
+    <a href="{{ item.room.map_url }}" class="map-link">
+      {% trans %}Show room on map{% endtrans %}
+    </a>
+  {% endif %}
+</div>
+{%- endmacro %}
+
+{% macro render_location(item) -%}
+<span class="location-info item-location"
+      data-qtip-html=".qtip-hidden-content"
+      data-qtip-opts='{"hide": {"fixed": true, "delay": 500}}'>
+  <i class="icon-location"></i>
+  <span class="text">
+    {{ item.room_name }}
+  </span>
+</span>
+<span class="qtip-hidden-content">
+  {{ _render_location_tip(item) }}
+</span>
+{%- endmacro %}
+
+<!-- Session Block -->
+{% macro render_session_block(block, event, theme_context, parent=none, timezone=none,
+                              show_notes=false, hide_contribs=false, show_location=false) %}
+{% set session_ = block.session %}
+{% set entries = block.timetable_entry.children %}
+{% set anchor = slugify('b', block.id, session_.title, block.title, maxlen=30) %}
+
+<tr id="{{ anchor }}" class="{{ 'non-empty-session' if entries else ''}}">
+  <td class="time">
+    {% if not entries %}
+      {{ render_time(block, timezone=timezone, hide_end_time=false) }}
+    {% endif %}
+  </td>
+  <td>
+    <div class="title">
+      {%- if block.title and block.title != session_.title -%}
+        {{- session_.title -}}: {{ block.title -}}
+      {%- else -%}
+        {{- session_.title -}}
+      {%- endif -%}
+    </div>
+
+    {% set conveners = block.person_links %}
+    {% if conveners %}
+      <div class="convener-list">
+        <span class="label">Chair:</span>
+        {{ render_users(conveners|sort(attribute='display_order_key'), title=false) }}
+      </div>
+    {% endif %}
+    <div class="attachments">
+      {{ render_attachments(session_) }}
+    </div>
+  </td>
+  <td class="location">
+    {% if not entries %}
+      {% if block.has_location_info and show_location -%}
+      {{ render_location(block) }}
+      {%- endif %}
+    {% endif %}
+  </td>
+  <td class="duration">
+    {% if not entries %}
+      {% if block.duration %}
+      <span class="icon-time">
+        {{ block.duration | format_human_timedelta(narrow=true) }}
+      </span>
+    {% endif %}
+    {% endif %}
+  </td>
+  {% set editable = not event.is_locked and block.can_manage_attachments(session.user) %}
+  {% if editable %}
+    <td class="manage-button">
+      {{ render_manage_button(block, 'SESSION_BLOCK', show_notes=false, show_button=true) }}
+      {{ template_hook('vc-actions', event=event, item=block) }}
+    </td>
+  {% endif %}
+</tr>
+{% if entries and not hide_contribs %}
+  {# It's impossible to sort by `lambda:` with Jinja, hence the double-sort #}
+  {% for entry in entries|sort(attribute='object.title')|sort(attribute='start_dt') %}
+    {% if entry.type.name == 'CONTRIBUTION' and entry.object.can_access(session.user) %}
+      {{ render_contribution(entry.contribution, event, theme_context, timezone=timezone) }}
+    {% elif entry.type.name == 'BREAK' %}
+      {{ render_break(entry.break_, event, theme_context, timezone=timezone) }}
+    {% endif %}
+  {% endfor %}
+{%- endif %}
+{% endmacro %}
+
+<!-- Contribution row -->
+{% macro render_contribution(contrib, event, theme_context, timezone=none) %} {% set anchor =
+slugify(contrib.friendly_id, contrib.title, maxlen=30) %}
+<tr id="{{ anchor }}">
+  <td class="time">
+    {{ render_time(contrib, timezone=timezone, hide_end_time=false) }}
+  </td>
+
+  <td>
+    <div class="title">
+      {{ contrib.title }}
+    </div>
+    {% set speakers = contrib.person_links|selectattr("is_speaker")|list %}
+    {% if speakers %}
+      {{ render_speakers(speakers) }}
+    {% endif %}
+    {% if contrib.references -%}
+      {{ render_references(contrib) }}
+    {%- endif %}
+    <div class="attachments">
+      {{ render_attachments(contrib) }}
+    </div>
+  </td>
+  <td class="location">
+    {% if contrib.has_location_info -%}
+      {{ render_location(contrib) }}
+    {% endif %}
+  </td>
+  <td class="duration">
+    {% if contrib.duration %}
+    <span class="icon-time">
+      {{ contrib.duration | format_human_timedelta(narrow=true) }}
+    </span>
+    {% endif %}
+  </td>
+  {% set editable = not event.is_locked and contrib.can_manage_attachments(session.user) %} {% if editable %}
+  <td class="manage-button">
+    {{ render_manage_button(contrib, 'CONTRIBUTION', show_notes=false, show_button=true) }}
+    {{ template_hook('vc-actions', event=event, item=contrib) }}
+  </td>
+  {% endif %}
+  {# TODO: Check how to display subcontributions #}
+  {# {% if contrib.subcontributions %}
+  <ul class="subcontrib-list">
+    {% for subcont in contrib.subcontributions %}
+    {% set theme_context.num_subcontribution = loop.index %}
+    {{ render_subcontribution(subcont, event, theme_context, show_notes=show_notes) }}
+    {% endfor %}
+  </ul>
+  {% endif %} #}
+</tr>
+{%- endmacro %}
+
+<!-- Break row -->
+{% macro render_break(item, event, theme_context, timezone=none) %}
+<tr>
+  <td class="time">
+    {{ render_time(item, timezone=timezone, hide_end_time=false) }}
+  </td>
+  <td>
+    <div class="title">
+      {{ item.title }}
+    </div>
+  </td>
+  <td class="location">
+    {% if item.has_location_info -%}
+    {{ render_location(item) }}
+    {%- endif %}
+  </td>
+  <td class="duration">
+    {% if item.duration -%}
+    <span class="icon-time">
+      {{ item.duration | format_human_timedelta(narrow=true) }}
+    </span>
+    {%- endif %}
+  </td>
+</tr>
+{% endmacro %}
+
+<!-- Timeline -->
+{% block content %}
+
+{% if "livestreamed" in event.keywords %}
+<div class="livestreamed">
+This event will be livestreamed.
+</div>
+{% endif %}
+
+{% set entries = event.timetable_entries %}
+{% if entries %}
+
+<table class="time">
+  <tbody>
+    {# Show only top level elements #}
+    {% for item in entries if item.parent_id == None %}
+      {% set date = item.start_dt.astimezone(event.display_tzinfo).date() %}
+      {% set date_changed = loop.changed(date) %}
+      {# Day header #}
+      {% if date_changed %}
+      {% set anchor %}day-{{ item.start_dt.date().isoformat()}}{% endset %}
+      <tr class="day-header" id="{{ anchor }}">
+        {% set editable = not event.is_locked and item.object.can_manage_attachments(session.user) %}
+        <td colspan="{{ '4' if editable else '3'}}">
+          {{ item.start_dt | format_date(format='EEEE, d MMMM', timezone=timezone) }}
+        </td>
+        <td class="manage-button"></td>
+      </tr>
+      {% endif %}
+      {% if item.type.name == 'CONTRIBUTION' %}
+        {{ render_contribution(item.object, event, theme_context, timezone=timezone) }}
+      {% elif item.type.name == 'SESSION_BLOCK' %}
+        {{ render_session_block(item.object, event, theme_context, timezone=timezone,
+                                show_notes=false, parent=event, hide_contribs=hide_contribs,
+                                show_location=show_siblings_location) }}
+      {% elif item.type.name == 'BREAK' %}
+        {{ render_break(item.object, event, theme_context, timezone=timezone) }}
+      {% endif %} 
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<div class="agenda-placeholder flexrow f-a-center">
+  <div class="agenda-placeholder-content">
+    <span class="placeholder-icon icon-calendar"></span>
+    <div class="placeholder-text">
+      {% trans %}The agenda of this meeting is empty{% endtrans %}
+    </div>
+    {% if event.can_manage(session.user) %}
+    <div>
+      {%- trans url=url_for('timetable.management', event) -%} In order to add entries go to the
+      <a href="{{ url }}">timetable</a> page. {%- endtrans -%}
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+{% endif %}
+{% endblock %}

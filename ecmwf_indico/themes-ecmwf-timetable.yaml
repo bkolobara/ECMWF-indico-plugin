@@ -1,6 +1,0 @@
-definitions:
-  ecmwf:
-    <<: *standard
-    stylesheet: ecmwf.scss
-    tt_template: :ecmwf_timetable.html
-    title: ECMWF style

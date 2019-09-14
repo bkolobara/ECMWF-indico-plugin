@@ -1,0 +1,11 @@
+{
+  "name": "ecmwf",
+  "version": "1.0.0",
+  "description": "This file only contains dependencies to build the frontend of the plugin",
+  "main": "index.js",
+  "author": "Bernard Kolobara",
+  "license": "MIT",
+  "dependencies": {
+    "linkifyjs": "^2.1.8"
+  }
+}

@@ -1,0 +1,9 @@
+{% if category.id == 1 %}
+  {# Training courses #}
+  {% include "categories/display/training_category.html" %}
+{% elif category.id == 2 %}
+  {# Workshops #}
+  {% include "categories/display/workshop_category.html" %}
+{% else %}
+    {% include "~categories/display/category.html" %}
+{% endif %}

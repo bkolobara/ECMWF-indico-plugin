@@ -30,7 +30,7 @@ from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.pagesizes import A4
 
 
-class VisaInvitationForm(IndicoForm):
+class SpeakerReimbursementForm(IndicoForm):
     from_address = SelectField(_("From"), [DataRequired()])
     cc_addresses = EmailListField(_("CC"),
                                   description=_("Beware, addresses in this field will receive one mail per "
@@ -47,8 +47,12 @@ class VisaInvitationForm(IndicoForm):
     def __init__(self, *args, **kwargs):
         self.regform = kwargs.pop('regform')
         event = self.regform.event
-        super(VisaInvitationForm, self).__init__(*args, **kwargs)
+        super(SpeakerReimbursementForm, self).__init__(*args, **kwargs)
         self.from_address.choices = event.get_allowed_sender_emails().items()
+        # Submitted forms have the body set and it should not be replaced with a template
+        if not self.body.data:
+            self.body.data = render_plugin_template(
+                'speaker_reimbursement_form_text.html')
         self.body.description = render_placeholder_info(
             'registration-email', regform=self.regform, registration=None)
 
@@ -60,10 +64,10 @@ class VisaInvitationForm(IndicoForm):
                 _('Missing placeholders: {}').format(', '.join(missing)))
 
     def is_submitted(self):
-        return super(VisaInvitationForm, self).is_submitted() and 'submitted' in request.form
+        return super(SpeakerReimbursementForm, self).is_submitted() and 'submitted' in request.form
 
 
-class VisaInvitationPDF(object):
+class SpeakerReimbursementPDF(object):
     def __init__(self, event, registration_id):
         self.registration = (Registration.query.with_parent(event)
                              .filter(Registration.id == registration_id)
@@ -113,56 +117,66 @@ class VisaInvitationPDF(object):
         width, height = A4
         # Logo
         canvas.translate(0, 28.5*cm)
-        canvas.drawImage("%s/static/img/ecmwf_logo.png" %
+        canvas.drawImage("%s/client/img/ecmwf_logo.png" %
                          dir_path, 1*cm, -2*cm, width=19*cm, height=2.47*cm)
-        # Header
-        canvas.translate(0, -2*cm)
-        canvas.drawString(
-            1*cm, -1*cm, datetime.date.today().strftime("%d %B %Y"))
-        canvas.drawRightString(20*cm, -1*cm, "karen.clarke@ecmwf.int")
-        # Contact information
+        # Body
         stylesheet = getSampleStyleSheet()
         normalStyle = stylesheet['Normal']
-        contact_data = "%s %s %s\n%s\n%s\n%s" % (
-            self.data['title'], self.data['first_name'], self.data['last_name'],
-            self.data['affiliation'], self.data['address'], self.data['country'])
-        contact_data = contact_data.replace("\n", "<br/>")
-        contact = Paragraph(contact_data, normalStyle)
-        contact.wrap(350, 400)
-        contact.drawOn(canvas, 1*cm, -5*cm)
-        # Body
         body_data = """
-        Dear %s %s
+        <b>%s</b>
+        <b>From %s To %s</b>
 
-        You are cordially invited to attend the event <b>"%s"</b> which is being held in %s, from %s to %s.
+        <b>Information for invited speakers</b>
+        
+        ECMWF will contribute  to your travel expenses up to the amount stated in the invitation email. You need to make your own travel arrangements; costs are reimbursed after the event.
 
-        We look forward to your participation in the event.
+        <b>You will receive a claim form</b> which you need to complete and submit together with receipts. You will need to provide flight booking confirmation, boarding passes, hotel invoice and receipts for taxi/train/bus fares . Please submit your claim as soon as possible after the event; you can email it or send it in the post.
 
-        Yours sincerely
+        <b>Your expenses will be reimbursed as follows (total up to maximum contribution):</b>
 
-        <img src="%s/static/img/signature.png" valign="middle" width="100" height="30"/>
+        Air fare: Economy return travel
+        Subsistence allowance: Consistent with date/time of workshop (100%% on receipt of hotel invoice; 50%% if staying with family or friends)
+        Local travel costs: Taxi/train/bus fares as appropriate
 
-        Karen Clarke
-        Events Manager
-        """ % (self.data['title'], self.data['last_name'],
-               self.data['event_title'], self.data['event_address'],
-               self.data['event_start_date'], self.data['event_end_date'],
-               dir_path)
+        If receipts for costs claimed are not provided, then ECMWF is unable to reimburse these costs.
+
+        <b>Expenses will be paid into your nominated bank account.</b> Please ensure that you have provided your bank details on the reverse of the claim form; including full postal address and account number as well as sort/swift/IBAN code (as applicable). ECWMF is unable to pay cash advances or reimburse expenses in cash.
+        
+        Remember to sign and date your travel claim.
+
+        <b>It is possible for your institution to invoice ECMWF for the contribution to your travel expenses.</b> In this case ECMWF will settle the invoice up to the maximum contribution and the invoice should include receipts as mentioned above.  
+        
+        <b>Should you have any questions, please contact:</b>
+
+        Regina Mansor
+        Email: regina.mansor@ecmwf.int
+        Telephone: +44 (0)118 949 9734
+
+        <b>Claims to be sent to:</b>
+        ECMWF
+        Regina Mansor
+        Administration Department
+        Shinfield Park
+        Reading RG2 9AX
+        Berkshire
+        Great Britain
+
+
+
+        <font size=8><i>Shinfield Park, Shinfield Road, Reading, RG2 9AX, UK
+        t: +44 (0)118 949 9000 | f: +44 (0)118 986 9450 | w: www.ecmwf.int</i></font>
+        """ % (self.data['event_title'], self.data['event_start_date'], self.data['event_end_date'])
         body_data = body_data.replace("\n", "<br/>")
         body = Paragraph(body_data, normalStyle)
-        body.wrap(500, 600)
-        body.drawOn(canvas, 1*cm, -12*cm)
-        # Footer
-        canvas.translate(0, -23.5*cm)
-        canvas.drawImage("%s/static/img/ecmwf_footer.png" %
-                         dir_path, 1*cm, -1.49*cm, width=17*cm, height=1.49*cm)
+        body.wrap(540, 700)
+        body.drawOn(canvas, 1*cm, -24*cm)
 
 
-class VisaInvitation(RHRegistrationsActionBase):
+class SpeakerReimbursement(RHRegistrationsActionBase):
     NOT_SANITIZED_FIELDS = {'from_address'}
 
-    def generate_visa_invitation_pdf(self, registration):
-        pdf = VisaInvitationPDF(registration.event, registration.id)
+    def generate_reimbursement_pdf(self, registration):
+        pdf = SpeakerReimbursementPDF(registration.event, registration.id)
         return pdf.get_pdf()
 
     def _send_emails(self, form):
@@ -174,7 +188,7 @@ class VisaInvitation(RHRegistrationsActionBase):
             template = get_template_module('events/registration/emails/custom_email.html',
                                            email_subject=email_subject, email_body=email_body)
             bcc = [session.user.email] if form.copy_for_sender.data else []
-            attachments = [('Visa invitation.pdf', self.generate_visa_invitation_pdf(
+            attachments = [('Reimbursement Information.pdf', self.generate_reimbursement_pdf(
                 registration).getvalue())]
             email = make_email(to_list=registration.email, cc_list=form.cc_addresses.data, bcc_list=bcc,
                                from_address=form.from_address.data, template=template, html=True,
@@ -182,12 +196,9 @@ class VisaInvitation(RHRegistrationsActionBase):
             send_email(email, self.event, 'Registration')
 
     def _process(self):
-        tpl = get_template_module(
-            'events/registration/emails/custom_email_default.html')
-        default_body = tpl.get_html_body()
         registration_ids = request.form.getlist('registration_id')
-        form = VisaInvitationForm(body=default_body, regform=self.regform, registration_id=registration_ids,
-                                  recipients=[x.email for x in self.registrations])
+        form = SpeakerReimbursementForm(regform=self.regform, registration_id=registration_ids,
+                                        recipients=[x.email for x in self.registrations])
         if form.validate_on_submit():
             self._send_emails(form)
             num_emails_sent = len(self.registrations)
@@ -196,6 +207,6 @@ class VisaInvitation(RHRegistrationsActionBase):
             else:
                 flash('The email was sent.', 'success')
             return jsonify_data()
-        return jsonify_template('send_visa_invite_form.html',
+        return jsonify_template('speaker_reimbursement_form.html',
                                 _render_func=render_plugin_template,
                                 form=form, regform=self.regform)

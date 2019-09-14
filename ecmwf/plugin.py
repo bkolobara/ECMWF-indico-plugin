@@ -12,20 +12,22 @@ from ecmwf_abstracts import ECMWFAbstracts
 
 
 class ECMWFPlugin(IndicoPlugin):
-    """ECMWF plugin
-
-    Main features:
-    - Notify contact with selected registrations.
-    """
 
     def init(self):
         super(ECMWFPlugin, self).init()
-        self.connect(signals.plugin.get_event_themes_files, self._get_themes_yaml)
-        self.template_hook(
-            'registration-status-action-button', self._ecmwf_menu)
-        self.inject_css('ecmwf_css')
-        self.inject_js('linkify_js')
-        self.inject_js('ecmwf_js')
+
+        # Override Indico pages with custom ECMWF html
+        self.connect(signals.plugin.get_template_customization_paths, self._override_templates)
+
+        # Inject ECMWF specific html into <head> (Open Sans, Fontawesome & Favicon)
+        self.template_hook('html-head', self._ecmwf_head)
+
+        # Add ECMWF button to performa a set of actions into the registrations page
+        self.template_hook('registration-status-action-button', self._ecmwf_registrations_menu)
+        # Inject main css
+        self.inject_bundle('main.css')
+        # Inject main js
+        self.inject_bundle('main.js')
 
     def get_blueprints(self):
         blueprint = IndicoPluginBlueprint(
@@ -48,14 +50,13 @@ class ECMWFPlugin(IndicoPlugin):
         )
         return blueprint
 
-    def register_assets(self):
-        self.register_css_bundle('ecmwf_css', 'css/ecmwf.css')
-        self.register_js_bundle('linkify_js', 'js/linkify.min.js', 'js/linkify-jquery.min.js')
-        self.register_js_bundle('ecmwf_js', 'js/ecmwf.js')
+    def _override_templates(self, sender, **kwargs):
+        return os.path.join(self.root_path, 'indico_template_overrides')
 
-    def _ecmwf_menu(self, **kwargs):
+    def _ecmwf_head(self, **kwargs):
+        return render_plugin_template('head.html')
+
+    def _ecmwf_registrations_menu(self, **kwargs):
         regform = kwargs["regform"]
         return render_plugin_template('actions_dropdown_extension.html', regform=regform)
-    
-    def _get_themes_yaml(self, sender, **kwargs):
-        return os.path.join(self.root_path, 'themes-ecmwf-timetable.yaml')
+
