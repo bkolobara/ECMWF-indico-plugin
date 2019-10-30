@@ -1,0 +1,23 @@
+{% extends 'emails/base.html' %}
+
+{% block header_recipient -%}
+    {first_name}
+{%- endblock %}
+
+{%- block header %}
+    {% block header_content %}
+    {% endblock %}
+{% endblock %}
+
+{% block body %}
+    {% block body_text %}
+    {% endblock %}
+{%- endblock %}
+
+{% block footer_title %}Registration{% endblock %}
+{% block footer %}
+    {# Show default footer if sent from command line #}
+    {% if not session.user %}
+        {{ super() }}
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,27 @@
+{
+  "build": {
+    "clientPath": "/Users/bkolobara/Development/indico/ecmwf_indico_plugin/ecmwf/client", 
+    "distPath": "/Users/bkolobara/Development/indico/ecmwf_indico_plugin/ecmwf/static/dist", 
+    "distURL": "/static/plugins/ecmwf/dist/", 
+    "indicoSourcePath": "/Users/bkolobara/Development/indico/src", 
+    "rootPath": "/Users/bkolobara/Development/indico/ecmwf_indico_plugin/ecmwf", 
+    "staticPath": "/Users/bkolobara/Development/indico/ecmwf_indico_plugin/ecmwf/static", 
+    "staticURL": "/static/plugins/ecmwf/", 
+    "urlMapPath": "/Users/bkolobara/Development/indico/ecmwf_indico_plugin/url_map.json"
+  }, 
+  "indico": {
+    "build": {
+      "baseURLPath": "/", 
+      "clientPath": "/Users/bkolobara/Development/indico/src/indico/web/client", 
+      "distPath": "/Users/bkolobara/Development/indico/src/indico/web/static/dist", 
+      "distURL": "/dist/", 
+      "rootPath": "/Users/bkolobara/Development/indico/src/indico", 
+      "staticPath": "/Users/bkolobara/Development/indico/src/indico/web/static", 
+      "staticURL": "/", 
+      "urlMapPath": "/Users/bkolobara/Development/indico/src/url_map.json"
+    }
+  }, 
+  "isPlugin": true, 
+  "plugin": "ecmwf", 
+  "themes": {}
+}
