@@ -1,5 +1,0 @@
-graft ecmwf/static
-graft ecmwf/templates
-graft ecmwf/indico_template_overrides
-
-global-exclude *.pyc __pycache__ .keep

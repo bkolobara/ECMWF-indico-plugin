@@ -1,0 +1,49 @@
+version: "3"
+services:
+  indico: &indico
+    build: indico
+    command: /opt/indico/run_indico.sh
+    ports:
+      - "8800:8800"
+    depends_on:
+      - redis
+      - postgres
+    networks:
+      - indico1
+    volumes:
+      - ./indico/src:/ecmwf
+  ecmwf:
+    <<: *indico
+    command: /opt/indico/run_plugin_builder.sh
+    ports: []
+  celery-worker:
+    <<: *indico
+    command: /opt/indico/run_indico_celery_worker.sh
+    environment:
+      - C_FORCE_ROOT=true
+    ports: []
+  maildump:
+    <<: *indico
+    command: maildump --smtp-ip 0.0.0.0 --http-ip 0.0.0.0 --http-port 8010
+    ports:
+      - "8810:8010"
+  redis:
+    image: redis:5
+    networks:
+      - indico1
+    restart: always
+  postgres:
+    image: postgres:11.5
+    ports:
+      - "5430:5432"
+    networks:
+      - indico1
+    environment:
+      - POSTGRES_USER=indico
+      - POSTGRES_PASSWORD=indicopass
+      - POSTGRES_DB=indico
+    volumes:
+      - ./:/docker-entrypoint-initdb.d/
+    restart: always
+networks:
+  indico1: {}

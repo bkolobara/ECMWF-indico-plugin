@@ -17,11 +17,28 @@ TODO:
 - Check all events.ecmwf.int and local instace pages to see if there is any breaking changes
 - Move to OAuth
 - Write documentation
-- Write automatic tests (elixir + docker + local pgsql?).
+- Write automatic tests (docker).
 
-## Update steps
+# Local development environment
 
-- Upgrade Indico to 2.2 following instructions
-- Update extension
-- Delete theme
-- _Do manual text changes on the category section to match reference website_
+## Database pre-seeding
+
+To get a snapshot of the production database run:
+
+```
+./scripts/backup-db.sh
+```
+
+This command will download a `postgresql.DATE.sql` into the current folder.
+You will need to remove the sections with user and database creation from the file.
+This is handeled directly by the postgres docker image.
+
+Now just take down the existing database and spin up a new one:
+
+```
+docker-compose down
+docker-compose up
+```
+
+The postgresql container will automatically find all `*.sql` files in the top level folder
+and run them.

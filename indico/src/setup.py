@@ -1,19 +1,11 @@
 from __future__ import unicode_literals
-
 from setuptools import setup, find_packages
-
-# Read README.md file into description
-from os import path
-this_directory = path.abspath(path.dirname(__file__))
-with open(path.join(this_directory, 'README.md')) as f:
-    long_description = f.read()
 
 setup(
     name='ecmwf_plugin',
-    version='0.0.4',
+    version='0.0.6',
     author='Bernard Kolobara',
     description='This Indico plugin provides a set of features specific to the ECMWF',
-    long_description=long_description,
     long_description_content_type='text/markdown',
     packages=find_packages(),
     platforms='any',

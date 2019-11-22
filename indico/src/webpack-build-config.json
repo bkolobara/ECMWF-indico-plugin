@@ -1,0 +1,27 @@
+{
+  "build": {
+    "clientPath": "/ecmwf/ecmwf/client", 
+    "distPath": "/ecmwf/ecmwf/static/dist", 
+    "distURL": "/static/plugins/ecmwf/dist/", 
+    "indicoSourcePath": "/opt/indico/src", 
+    "rootPath": "/ecmwf/ecmwf", 
+    "staticPath": "/ecmwf/ecmwf/static", 
+    "staticURL": "/static/plugins/ecmwf/", 
+    "urlMapPath": "/ecmwf/url_map.json"
+  }, 
+  "indico": {
+    "build": {
+      "baseURLPath": "/", 
+      "clientPath": "/opt/indico/src/indico/web/client", 
+      "distPath": "/opt/indico/src/indico/web/static/dist", 
+      "distURL": "/dist/", 
+      "rootPath": "/opt/indico/src/indico", 
+      "staticPath": "/opt/indico/src/indico/web/static", 
+      "staticURL": "/", 
+      "urlMapPath": "/opt/indico/src/url_map.json"
+    }
+  }, 
+  "isPlugin": true, 
+  "plugin": "ecmwf", 
+  "themes": {}
+}
