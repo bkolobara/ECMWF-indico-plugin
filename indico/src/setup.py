@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='ecmwf_plugin',
-    version='0.0.6',
+    version='0.1.0',
     author='Bernard Kolobara',
     description='This Indico plugin provides a set of features specific to the ECMWF',
     long_description_content_type='text/markdown',
