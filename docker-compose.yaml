@@ -22,16 +22,22 @@ services:
     environment:
       - C_FORCE_ROOT=true
     ports: []
+    logging:
+      driver: none
   maildump:
     <<: *indico
     command: maildump --smtp-ip 0.0.0.0 --http-ip 0.0.0.0 --http-port 8010
     ports:
       - "8810:8010"
+    logging:
+      driver: none
   redis:
     image: redis:5
     networks:
       - indico1
     restart: always
+    logging:
+      driver: none
   postgres:
     image: postgres:11.5
     ports:
@@ -45,5 +51,7 @@ services:
     volumes:
       - ./:/docker-entrypoint-initdb.d/
     restart: always
+    logging:
+      driver: none
 networks:
   indico1: {}
