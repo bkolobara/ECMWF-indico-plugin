@@ -1,0 +1,28 @@
+{% extends 'emails/base.html' %}
+{% block header %}{% endblock %}
+{% block footer %}{% endblock %}
+
+{% set event = registration.registration_form.event %}
+
+{% block subject -%}
+    {% autoescape false -%}
+        {% block subject_message %}{% endblock %} for {{ event.title }}
+        {%- block subject_name %}: {{ registration.full_name }}{% endblock %}
+    {%- endautoescape %}
+{%- endblock %}
+
+{% block body %}
+    <div class="mail" style="width: 600px; font-family: Arial; border: 1px solid #dfdfdf; background-color: #fcfcfc; margin: auto auto 40px auto;">
+        <div class="header" style="background-color: #5D95EA; color: #eee; padding: 10px 20px;">
+            <h1 style="margin: 0;">
+                {{ event.title }}
+            </h1>
+        </div>
+        <div class="content" style="padding: 10px 20px; color: #555;">
+            {% block registration_header %}{% endblock %}
+        </div>
+        <div style="text-align: center; padding: 10px; background: #EBEBEB; font-size: small; color: #999;">
+            ECMWF :: Event Registration
+        </div>
+    </div>
+{% endblock %}

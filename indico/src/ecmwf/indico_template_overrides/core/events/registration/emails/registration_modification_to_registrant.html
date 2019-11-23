@@ -1,0 +1,18 @@
+{% extends 'events/registration/emails/registration_creation_to_registrant.html' %}
+
+{% block subject_prefix -%}
+    Registration modified
+{%- endblock %}
+
+{% block registration_header -%}
+    {% set event = registration.registration_form.event %}
+    <p>
+    This is to confirm that your registration for the <strong>{{ event.title }}</strong>
+    has been modified. If you would like to view your registration details, please use this
+    <a href="{{ url_for('event_registration.display_regform', registration.locator.registrant, _external=true) }}">
+        link
+    </a>.
+    </p>
+    <p>Kind regards</p>
+    <p>The Events Team</p>
+{%- endblock %}

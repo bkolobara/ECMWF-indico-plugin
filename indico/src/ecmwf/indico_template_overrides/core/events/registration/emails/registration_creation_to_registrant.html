@@ -1,0 +1,40 @@
+{% extends 'events/registration/emails/base_registration_details.html' %}
+{% block subject_name %}{% endblock %}
+
+{% block subject_message -%}
+    Registration
+{%- endblock %}
+
+{% block registration_header -%}
+    {% set event = registration.registration_form.event %}
+    <p>
+    Thank you for applying to participate in the <strong>{{ event.title }}</strong>
+    taking place at ECMWF on {{ render_registration_date() }}.
+    </p>
+    <p>
+    Acceptance notifications will be sent after the registration deadline. If you need
+    earlier notification, please contact <a href="mailto:events@ecmwf.int">events@ecmwf.int</a>.
+    </p>
+    <p>
+    You can use this
+    <a href="{{ url_for('event_registration.display_regform', registration.locator.registrant, _external=true) }}">
+        link
+    </a>
+    to return to your form, modifications can be made until the registration deadline.
+    </p>
+    <p>Kind regards</p>
+    <p>The Events Team</p>
+{%- endblock %}
+
+
+{% macro render_registration_date() %}
+    {% if event.start_dt_local.date() == event.end_dt_local.date() %}
+        {{ event.start_dt|format_datetime(timezone=event.tzinfo) }}
+        -
+        {{ event.end_dt|format_time(timezone=event.tzinfo) }}
+    {% else %}
+        {{ event.start_dt|format_datetime(timezone=event.tzinfo) }}
+        -
+        {{ event.end_dt|format_datetime(timezone=event.tzinfo) }}
+    {% endif %}
+{% endmacro %}
