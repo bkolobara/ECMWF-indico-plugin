@@ -62,6 +62,19 @@
 
 {% macro materials(category) %}
   <ul class="menu nav">
+    {% if category.can_create_events(session.user) %}
+      <li>
+        <a href=""
+           class="highlight i-button icon-plus"
+           title="{% trans %}Create event{% endtrans %}"
+           data-href="{{ url_for('events.create', category, event_type='conference') }}"
+           data-ajax-dialog
+           data-ignore-href>
+            Create event
+        </a>
+      </li>
+    {% endif %}
+
     {% for material in category.attached_items.files %}
     <li>
       <a href="{{material.download_url}}">

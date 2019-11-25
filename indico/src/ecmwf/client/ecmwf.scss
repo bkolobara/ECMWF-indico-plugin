@@ -28,6 +28,14 @@
     }
   }
 
+  div.category-title-line {
+    display: flex;
+    .actions {
+      font-size: 20px;
+      margin: 36px 10px;
+    }
+  }
+
   .element-hidden {
     display: none;
   }

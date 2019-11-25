@@ -142,6 +142,8 @@ div.event-header h1 { color: #333; font-size: 32px; margin-top: 64px; }
 
 .past-events > .info-message-box { margin: 20px 0; }
 
+div.global-menu.toolbar { display: none; }
+
 @charset "UTF-8";
 .ecmwf-page { /* Animation utility constructs */ /* Work around issues in WebKit (used by Safari) which shrinks the contained elements instead of growing the container. The following prevents the children of the flexbox to be shrinked which is ok since we want the page to scroll anyway. */ /* Elements */ /* Quick rules */ /* Use the following CSS code if you want to use data attributes for inserting your icons */ /* Use the following CSS code if you want to have a class per icon */ /*
 Instead of a list of all class selectors,
@@ -1101,6 +1103,10 @@ you can use the generic selector below, but it's slower:
 
 .ecmwf-page div.sub-title .actions { flex-grow: 0; }
 
+.ecmwf-page div.category-title-line { display: flex; }
+
+.ecmwf-page div.category-title-line .actions { font-size: 20px; margin: 36px 10px; }
+
 .ecmwf-page .element-hidden { display: none; }
 
 .ecmwf-page .clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
@@ -1324,4 +1330,4 @@ you can use the generic selector below, but it's slower:
   .ecmwf-page .menu-name-main-menu ul.menu.nav li.leaf { display: none !important; } }
 
 
-/*# sourceMappingURL=main.955047fe.css.map*/
+/*# sourceMappingURL=main.bf71d0de.css.map*/

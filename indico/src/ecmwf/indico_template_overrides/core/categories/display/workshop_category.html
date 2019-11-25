@@ -8,8 +8,15 @@
       </div>
 
       <div class="row">
-        <div class="col-lg-offset-6 col-sm-24 col-lg-12">
+        <div class="col-lg-offset-6 col-sm-24 col-lg-12 category-title-line">
           <h1 class="title " id="page-title">{{ category.title }}</h1>
+          <div class="actions">
+            {% if category.can_manage(session.user) %}
+              <a href="{{ url_for('categories.manage_content', category) }}"
+                  class="i-button icon-edit"
+                  title="{% trans %}Manage category{% endtrans %}"></a>
+              {% endif %}
+          </div>
         </div>
       </div>
     </div>
@@ -43,9 +50,8 @@
                 <div class="field field-name-body field-type-text-with-summary field-label-hidden">
                   <div class="field-items">
                     <div class="field-item even" property="content:encoded">
-                      {{ category.description }}
-                      {{ events(category, format_event_date) }}
-                      {{ sub_categories(category, format_event_date) }}
+                      {{ category.description }} {{ events(category, format_event_date) }} {{ sub_categories(category,
+                      format_event_date) }}
                     </div>
                   </div>
                 </div>
