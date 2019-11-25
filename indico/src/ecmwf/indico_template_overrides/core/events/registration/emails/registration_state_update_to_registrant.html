@@ -1,0 +1,55 @@
+{% extends 'events/registration/emails/registration_creation_to_registrant.html' %}
+
+{% block subject_message -%}
+    Registration {{ registration.state.title|lower }}
+{%- endblock %}
+
+{% block registration_header -%}
+    {% if registration.state.title == "Completed" %}
+        {{ render_registration_approved() }}
+    {% elif registration.state.title == "Rejected"%}
+        {{ render_registration_rejected() }}
+    {% elif registration.state.title == "Withdrawn"%}
+        <p>Your registration has been withdrawn.</p>
+    {% endif %}
+{%- endblock %}
+
+{% macro render_registration_approved() %}
+    {% set event = registration.registration_form.event %}
+    <p>
+    Thank you for applying to participate in the <strong>{{ event.title }}</strong>
+    taking place at ECMWF on {{ render_registration_date() }}.
+    </p>
+    <p>
+        We are pleased to confirm your place at the event.
+    </p>
+    <p>
+        Please visit our website for information about how to get here and where to stay
+        <a href="https://www.ecmwf.int/en/about/contact-us/location">
+            https://www.ecmwf.int/en/about/contact-us/location
+        </a>.
+    </p>
+    <p>
+        We will be in touch with more details on the event as we get closer to the event.
+        If you need any more information in the meantime, please do not hesitate to contact
+        <a href="mailto:events@ecmwf.int">events@ecmwf.int</a>.
+    </p>
+    <p>We look forward to seeing you at ECMWF.</p>
+    <p>Kind regards</p>
+    <p>The Events Team</p>
+{% endmacro %}
+
+{% macro render_registration_rejected() %}
+    {% set event = registration.registration_form.event %}
+    <p>
+    Thank you for applying to participate in the <strong>{{ event.title }}</strong>
+    taking place at ECMWF on {{ render_registration_date() }}.
+    </p>
+    <p>
+        Unfortunately places at the workshop are limited and have been restricted.
+        Regrettably we are unable to offer you a place at this particular event.
+    </p>
+    <p>Thank you again for your interest.</p>
+    <p>Kind regards</p>
+    <p>The Events Team</p>
+{% endmacro %}
