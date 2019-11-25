@@ -14,7 +14,7 @@
   {% if category.events %}
     {% set current_year = now().year %}
     {% set iteration = {"year": 0} %} {# We need to use a map because of jinja2 variable setting #}
-    {% for event in category.events if event.start_dt.year >= current_year %}
+    {% for event in category.events if event.start_dt.year >= current_year and event.start_dt.year > 2019 %}
       {% if  event.start_dt.year > iteration.year %}
         {% if iteration.year != 0 %}
           {# Close previous table before transitioning to new year #}
