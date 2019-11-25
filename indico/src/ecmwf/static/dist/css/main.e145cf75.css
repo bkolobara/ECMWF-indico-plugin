@@ -817,6 +817,11 @@ you can use the generic selector below, but it's slower:
 
 @media (max-width: 1200px) { .ecmwf-page table.time td.manage-button { display: none; } }
 
+@media print { body .header, body .footer { display: none; }
+  main .container-category.middle .row .col-sm-8.col-md-6 { display: none; }
+  table td div.attachments { display: none; }
+  table td .icon-location { display: none; } }
+
 @charset "UTF-8";
 /* This CSS is automatically extracted using the Chrome CSS Used extension from the <main> element on this page: https://www.ecmwf.int/en/learning/training It was additionally wrapped into the ecmwf-page class so it does not overlap with default Indico CSS. */
 /*! CSS Used from: https://www.ecmwf.int/sites/default/files/css/css_ShXWW-XODkrGhqp8igBl430fjM4ZvofE9Ht3TWfXwZ8.css ; media=all */
@@ -1313,4 +1318,4 @@ you can use the generic selector below, but it's slower:
   .ecmwf-page .menu-name-main-menu ul.menu.nav li.leaf { display: none !important; } }
 
 
-/*# sourceMappingURL=main.999cb6bb.css.map*/
+/*# sourceMappingURL=main.e145cf75.css.map*/

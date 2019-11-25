@@ -2,6 +2,7 @@ import linkifyElement from "linkifyjs/element";
 
 import "./global.scss";
 import "./timetable.scss";
+import "./timetable_print.scss";
 import "./ecmwf.scss";
 
 // Point the abstract pdf generation link inside the "Call for Abstracts" menu
@@ -21,9 +22,7 @@ $(document).ready(function() {
 // Turn text into links inside the registration form
 $(document).ready(function() {
   function linkifyForm() {
-    document
-      .querySelectorAll("span.ng-binding")
-      .forEach(el => linkifyElement(el));
+    document.querySelectorAll("span.ng-binding").forEach(el => linkifyElement(el));
   }
   // The form is rendered on the frontend and we need to wait around 2 second before the element exist
   setTimeout(linkifyForm, 2000);
