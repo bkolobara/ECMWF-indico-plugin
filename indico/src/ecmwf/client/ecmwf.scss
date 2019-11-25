@@ -6,14 +6,27 @@
 /*! CSS Used from: https://www.ecmwf.int/sites/default/files/css/css_ShXWW-XODkrGhqp8igBl430fjM4ZvofE9Ht3TWfXwZ8.css ; media=all */
 
 .ecmwf-page {
-    #main .region-content {
-      form {
-        @import "reset";
-        @import "conference_page";
-      }
-      
-      padding-bottom: 10px;
+  #main .region-content {
+    form {
+      @import "reset";
+      @import "conference_page";
     }
+    
+    padding-bottom: 10px;
+  }
+
+  div.sub-title {
+    margin: -5px 0 5px 0;
+    display: flex;
+    align-items: flex-start;
+    h2 {
+      flex-grow: 1;
+      margin: 0;
+    }
+    .actions {
+      flex-grow: 0;
+    }
+  }
 
   .element-hidden {
     display: none;

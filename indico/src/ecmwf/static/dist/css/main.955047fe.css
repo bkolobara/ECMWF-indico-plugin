@@ -818,7 +818,7 @@ you can use the generic selector below, but it's slower:
 @media (max-width: 1200px) { .ecmwf-page table.time td.manage-button { display: none; } }
 
 @media print { body .header, body .footer { display: none; }
-  main .container-category.middle .row .col-sm-8.col-md-6 { display: none; }
+  main .container-category.middle .row .col-sm-8.col-md-6, main .container-category.middle .row div.sub-title { display: none; }
   table td div.attachments { display: none; }
   table td .icon-location { display: none; } }
 
@@ -1095,6 +1095,12 @@ you can use the generic selector below, but it's slower:
 
 .ecmwf-page #main .region-content form .conference-page section:first-child { margin-top: 0; }
 
+.ecmwf-page div.sub-title { margin: -5px 0 5px 0; display: flex; align-items: flex-start; }
+
+.ecmwf-page div.sub-title h2 { flex-grow: 1; margin: 0; }
+
+.ecmwf-page div.sub-title .actions { flex-grow: 0; }
+
 .ecmwf-page .element-hidden { display: none; }
 
 .ecmwf-page .clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
@@ -1318,4 +1324,4 @@ you can use the generic selector below, but it's slower:
   .ecmwf-page .menu-name-main-menu ul.menu.nav li.leaf { display: none !important; } }
 
 
-/*# sourceMappingURL=main.e145cf75.css.map*/
+/*# sourceMappingURL=main.955047fe.css.map*/

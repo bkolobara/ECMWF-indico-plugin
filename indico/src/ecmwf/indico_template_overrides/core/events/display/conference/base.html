@@ -107,6 +107,14 @@
       </div>
 
       <div class="col-sm-16 col-md-12">
+        <div class="sub-title">
+          <h2>
+            {% block title -%}{%- endblock %}
+          </h2>
+          <div class="actions">
+            {% block page_actions -%}{%- endblock %}
+          </div>
+        </div>
         <div class="region region-content">
           {% block content %}{% endblock %}
         </div>
