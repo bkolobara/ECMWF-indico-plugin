@@ -46,6 +46,11 @@ COPY src /ecmwf
 RUN pip install -e /ecmwf
 RUN cp -r /ecmwf/ecmwf_plugin.egg-info /ecmwf_plugin.egg-info
 
+# Upgrade flask to a version supporting OIDC
+RUN sed -i '/Flask-Multipass/d' /opt/indico/env/lib/python2.7/site-packages/indico-2.2.4.dist-info/METADATA
+RUN pip install --pre --upgrade 'flask-multipass[oidc]'
+RUN pip install Authlib==0.12.1
+
 WORKDIR /opt/indico
 
 COPY indico.conf /opt/indico/etc/indico.conf
