@@ -31,11 +31,6 @@
           <strong>{{ event.venue_name }}{% if event.address %} | {{ event.address }}{% endif %} | {{ _format_event_date(event) }}</strong>
         </p>
         <p>
-          {% if event.has_logo %}
-              <img class="file-default media-element" src="{{ event.logo_url }}" style="width: 100%"/>
-          {% endif %}
-        </p>
-        <p>
         {{ event.description }}
         </p>
       </div>
