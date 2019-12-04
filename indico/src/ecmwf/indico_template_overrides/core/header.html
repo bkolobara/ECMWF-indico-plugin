@@ -1,8 +1,89 @@
-{% extends '~header.html' %}
+{% from 'events/management/_create_event_button.html' import create_event_link %}
+{% from 'announcement/display.html' import render_announcements %}
+{% from 'core/impersonation.html' import render_impersonation %}
 
-{% block logo %}
-<a href="https://www.ecmwf.int/">
-    <img class="header-logo" src="https://www.ecmwf.int/sites/all/themes/ecmwf_bootstrap_2017/dist/images/logo.production.png">
-</a>
-<i class="fa fa-bars" aria-hidden="true"></i>
-{% endblock %}
+{{ render_impersonation(legacy=true) }}
+{{ render_announcements(legacy=true) }}
+
+<div class="page-header clearfix">
+    <div class="flexrow f-j-space-between f-a-start">
+        {% block logo %}
+            <a href="https://www.ecmwf.int/">
+                <img class="header-logo" src="https://www.ecmwf.int/sites/all/themes/ecmwf_bootstrap_2017/dist/images/logo.production.png">
+            </a>
+            <i class="fa fa-bars" aria-hidden="true"></i>
+        {% endblock %}
+
+        <div class="flexcol">
+            {{ render_session_bar(protected_object=protected_object, local_tz=local_tz, force_local_tz=force_local_tz) }}
+            {{ template_hook('page-header', category=category) }}
+        </div>
+    </div>
+
+    {% if session.user.is_admin or category.can_create_events(session.user) %}
+    <div class="global-menu toolbar">
+        {% if session.user.is_admin %}
+            <a href="{{ url_for('core.admin_dashboard') }}">Administration</a>
+        {% endif %}
+
+        <a href=""
+        data-title="{% trans %}Create event{% endtrans %}"
+        data-href="{{ url_for('events.create', category, event_type='conference') }}"
+        data-ajax-dialog
+        data-ignore-href>
+            Create event
+        </a>
+
+        {% block global_menu %}
+        {% endblock %}
+    </div>
+    {% endif %}
+
+</div>
+
+<script type="text/html" id="event-type-tooltip-lecture">
+    {%- trans -%}
+        A <strong>lecture</strong> is a simple event to announce a talk.
+    {%- endtrans -%}
+    <br>
+    {%- trans -%}
+        <strong>Features</strong>:
+        poster creation, participant management, ...
+    {%- endtrans -%}
+</script>
+<script type="text/html" id="event-type-tooltip-meeting">
+    {%- trans -%}
+        A <strong>meeting</strong> is an event that defines an agenda with multiple talks.
+    {%- endtrans -%}
+    <br>
+    {%- trans -%}
+        <strong>Features</strong>:
+        timetable, minutes, poster creation, participants management, ...
+    {%- endtrans -%}
+</script>
+<script type="text/html" id="event-type-tooltip-conference">
+    {%- trans -%}
+        A <strong>conference</strong> is a complex event with features to manage the whole life cycle of a conference.
+    {%- endtrans -%}
+    <br>
+    {%- trans -%}
+        <strong>Features</strong>:
+        call for abstracts, registration, e-payment, timetable, badges creation, paper reviewing,...
+    {%- endtrans -%}
+</script>
+
+<script>
+    (function() {
+        'use strict';
+
+        ['lecture', 'meeting', 'conference'].forEach(function(evt_type) {
+            $('#create-' + evt_type).qtip({
+                content: $('#event-type-tooltip-' + evt_type).html(),
+                position: {
+                    my: 'left center',
+                    at: 'right center'
+                }
+            });
+        });
+    })();
+</script>

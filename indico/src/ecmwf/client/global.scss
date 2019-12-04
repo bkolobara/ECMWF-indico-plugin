@@ -3,7 +3,10 @@ $blue--light: #357ac8;
 $black: #333;
 
 // Disable a few header elements
-.button-bar a[title="Change theme"], a#protection-details-link,  a#tz-selector-link {
+.button-bar a[title="Change theme"],
+a#protection-details-link, 
+a#tz-selector-link,
+a#language-selector-link {
   display: none;
 }
 
@@ -450,8 +453,4 @@ div.main-breadcrumb, div.session-bar,
 
 .past-events > .info-message-box {
   margin: 20px 0;
-}
-
-div.global-menu.toolbar {
-  display: none;
 }

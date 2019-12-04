@@ -1,4 +1,4 @@
-.button-bar a[title="Change theme"], a#protection-details-link, a#tz-selector-link { display: none; }
+.button-bar a[title="Change theme"], a#protection-details-link, a#tz-selector-link, a#language-selector-link { display: none; }
 
 * { font-family: "Open Sans",Helvetica,sans-serif; }
 
@@ -141,8 +141,6 @@ div.event-header h1 { color: #333; font-size: 32px; margin-top: 64px; }
 .reviewing-page { padding-bottom: 50px; }
 
 .past-events > .info-message-box { margin: 20px 0; }
-
-div.global-menu.toolbar { display: none; }
 
 @charset "UTF-8";
 .ecmwf-page { /* Animation utility constructs */ /* Work around issues in WebKit (used by Safari) which shrinks the contained elements instead of growing the container. The following prevents the children of the flexbox to be shrinked which is ok since we want the page to scroll anyway. */ /* Elements */ /* Quick rules */ /* Use the following CSS code if you want to use data attributes for inserting your icons */ /* Use the following CSS code if you want to have a class per icon */ /*
@@ -1330,4 +1328,4 @@ you can use the generic selector below, but it's slower:
   .ecmwf-page .menu-name-main-menu ul.menu.nav li.leaf { display: none !important; } }
 
 
-/*# sourceMappingURL=main.bf71d0de.css.map*/
+/*# sourceMappingURL=main.43d25fcd.css.map*/
