@@ -20,7 +20,7 @@
         </div>
     </div>
 
-    {% if session.user.is_admin or category.can_create_events(session.user) %}
+    {% if session.user.is_admin or (category and category.can_create_events(session.user)) %}
     <div class="global-menu toolbar">
         {% if session.user.is_admin %}
             <a href="{{ url_for('core.admin_dashboard') }}">Administration</a>
