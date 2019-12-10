@@ -820,7 +820,9 @@ you can use the generic selector below, but it's slower:
 @media print { body .header, body .footer { display: none; }
   main .container-category.middle .row .col-sm-8.col-md-6, main .container-category.middle .row div.sub-title { display: none; }
   table td div.attachments { display: none; }
-  table td .icon-location { display: none; } }
+  table td .icon-location { display: none; }
+  body { display: block; }
+  #MathJax_Message { display: none; } }
 
 @charset "UTF-8";
 /* This CSS is automatically extracted using the Chrome CSS Used extension from the <main> element on this page: https://www.ecmwf.int/en/learning/training It was additionally wrapped into the ecmwf-page class so it does not overlap with default Indico CSS. */
@@ -1328,4 +1330,4 @@ you can use the generic selector below, but it's slower:
   .ecmwf-page .menu-name-main-menu ul.menu.nav li.leaf { display: none !important; } }
 
 
-/*# sourceMappingURL=main.43d25fcd.css.map*/
+/*# sourceMappingURL=main.58dc8324.css.map*/
